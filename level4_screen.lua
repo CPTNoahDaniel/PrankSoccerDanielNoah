@@ -658,21 +658,21 @@ function scene:create( event )
      sceneGroup:insert( characterRolling )
     sceneGroup:insert( characterJumping )
 
-  platform1 = display.newImageRect("Images/platform.png",200, 25)
+  platform1 = display.newImageRect("Images/platformLevel4.png",200, 25)
    platform1.x = display.contentCenterX
    platform1.y = display.contentCenterY - 200
 
     
     sceneGroup:insert( platform1 )
 
-  platform2 = display.newImageRect("Images/platform.png",200, 25)
+  platform2 = display.newImageRect("Images/platformLevel4.png",200, 25)
    platform2.x = display.contentCenterX + 300
    platform2.y = display.contentCenterY 
 
     
     sceneGroup:insert( platform2 )
 
-  platform3 = display.newImageRect("Images/platform.png",200, 25)
+  platform3 = display.newImageRect("Images/platformLevel4.png",200, 25)
    platform3.x = display.contentCenterX - 300
    platform3.y = display.contentCenterY -200
 
