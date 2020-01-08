@@ -201,7 +201,13 @@ local function ChangeScore2( )
     rightButton.isVisible = false
     leftButton.isVisible = false
     
-
+  elseif (goal_ == 2)and
+         (goal1 == 1)then
+          goal_text.text = "2"
+          upButton.isVisible = false
+    rightButton.isVisible = false
+    leftButton.isVisible = false
+  timer.performWithDelay(2000, Level2Transition)  
   elseif (goal_ == 2)then
     goal_text.text = "2"
      upButton.isVisible = false
@@ -226,7 +232,13 @@ local function ChangeScore( )
     rightButton.isVisible = false
     leftButton.isVisible = false
    
-
+  elseif (goal1 == 2)and
+         (goal_ == 1)then
+            goalText.text = "2"
+      upButton.isVisible = false
+    rightButton.isVisible = false
+    leftButton.isVisible = false
+  timer.performWithDelay(2000, Level2Transition)  
   elseif (goal1 == 2)then
     goalText.text = "2"
   
