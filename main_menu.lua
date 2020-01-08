@@ -36,6 +36,7 @@ soundOn = true
 
 
 
+
 -----------------------------------------------------------------------------------------
 -- LOCAL VARIABLES
 -----------------------------------------------------------------------------------------
@@ -47,6 +48,9 @@ local instructionsButton
 local muteButton
 local unMuteButton
 local border
+local coin
+local coinText
+local ball
 
 -----------------------------------------------------------------------------------------
 -- LOCAL SOUNDS
@@ -114,6 +118,53 @@ local function CreditsTransition( )
     transitionSoundChannel = audio.play(transitionSound)
     end
 end 
+
+local function CoinBlink3(  )
+    coinText.isVisible = false
+    coin.isVisible = false
+
+end
+
+local function CoinBlink2(  )
+    coinText.isVisible = true
+    coin.isVisible = true
+    timer.performWithDelay(1000, CoinBlink3)
+
+end
+
+local function CoinBlink( event )
+    --coinText.isVisible = false
+    if( coinText.isVisible == false) then
+        timer.performWithDelay(1000, CoinBlink2)
+    end
+end
+
+local function BeganCoin( )
+    coinText.isVisible = false
+    Runtime:addEventListener("enterFrame", CoinBlink)
+end
+
+local function MoveBall( )
+    ball.x = ball.x + 8
+    ball.y = ball.y + 3
+    ball.rotation = ball.rotation + 5
+    if ( ball.x > 4000)then
+        ball.x = -500
+        ball.y = 100
+    end
+end
+
+local function MoveBall3( event )
+    Runtime:addEventListener("enterFrame", MoveBall)
+
+end
+
+
+local function MoveBall2( ... )
+    timer.performWithDelay(1000, MoveBall3)
+
+    --MoveBall2()
+end
 -----------------------------------------------------------------------------------------
 -- GLOBAL SCENE FUNCTIONS
 -----------------------------------------------------------------------------------------
@@ -149,6 +200,24 @@ function scene:create( event )
 
     sceneGroup:insert( muteButton )
     sceneGroup:insert( unMuteButton )
+
+
+    coin = display.newImageRect("Images/CoinNoah@2x.png", 50, 50)
+    coin.x = 890
+    coin.y = 120
+    
+    sceneGroup:insert( coin )
+
+    coinText = display.newText("COINS", 930, 40, nil, 50)
+
+    sceneGroup:insert( coinText )
+
+    ball = display.newImageRect("Images/BallNoah@2x.png", 75, 75)
+    ball.x = -500
+    ball.y = 100
+
+    sceneGroup:insert( ball )
+    
     
    
     -----------------------------------------------------------------------------------------
@@ -242,7 +311,8 @@ function scene:show( event )
 
     -- Called when the scene is still off screen (but is about to come on screen).   
     if ( phase == "will" ) then
-       
+       BeganCoin()
+       MoveBall2()
     -----------------------------------------------------------------------------------------
 
     -- Called when the scene is now on screen.
@@ -290,7 +360,8 @@ function scene:hide( event )
         -- Called immediately after scene goes off screen.
 
         -- removes mute button listeners
-        
+        Runtime:removeEventListener("enterFrame", CoinBlink)
+        Runtime:removeEventListener("enterFrame", MoveBall)
         muteButton:removeEventListener("touch", Mute)
         unMuteButton:removeEventListener("touch", UnMute)
         

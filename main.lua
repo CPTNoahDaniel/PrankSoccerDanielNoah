@@ -15,4 +15,4 @@ local composer = require( "composer" )
 -----------------------------------------------------------------------------------------
 
 -- Tansitioning to the menu screen
-composer.gotoScene( "character_select" )
+composer.gotoScene( "main_menu" )
