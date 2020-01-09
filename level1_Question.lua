@@ -80,6 +80,8 @@ local function DisplayQuestion2()
     --creating random numbers
     firstNumber = math.random (1,20)
  question2Image.isVisible = false  
+answerBox2.isVisible = true
+answerBox4.isVisible = true
 answerBox.isVisible = true
 answerBox3.isVisible = true
 if (firstNumber == 1) then
@@ -385,7 +387,7 @@ end
 local function Calculate2( )
     if (numCorrect == 2)then
         
-        composer.hideOverlay( "level2_Question", { isModal = true, effect = "fade", time = 500})      
+        composer.hideOverlay( "level1_Question", { isModal = true, effect = "fade", time = 500})      
         ResumeGameLevel1()
         
         numCorrect = 0
@@ -393,12 +395,12 @@ local function Calculate2( )
 
     elseif (numIncorrect == 2)then
        
-        composer.hideOverlay( "level2_Question", { isModal = true, effect = "fade", time = 500})
+        composer.hideOverlay( "level1_Question", { isModal = true, effect = "fade", time = 500})
         ResumeGame2Level1()
 
         numCorrect = 0
         numIncorrect = 0
-    else   
+    else  
         
  DisplayQuestion2()
         PositionAnswers2()
@@ -435,7 +437,8 @@ end
 local function DisplayQuestion()
     --creating random numbers
     firstNumber = math.random (1,20)
-   
+   answerBox.isVisible = true
+answerBox3.isVisible = true
 
 if (firstNumber == 1) then
 

@@ -500,7 +500,74 @@ local function MainMenuTransition( )
      channel2 = audio.play(transitionSound)
     end
     
-end    
+end 
+
+local function CharacterSelect( )
+  if ( characterf == 1)then
+    character = display.newImageRect("Images/character.png",75, 125)
+   character.x = display.contentCenterX
+   character.y = display.contentCenterY + 150
+  character.myName = "character"
+
+   character.isFixedRotation = true
+
+    characterJumping = display.newImageRect("Images/characterRolling.png",75, 125)
+    characterJumping.x = character.x
+    characterJumping.y = character.y
+    characterJumping.isVisible = false
+
+     characterRolling = display.newImageRect("Images/characterJumping.png",75, 125)
+    characterRolling.x = character.x
+    characterRolling.y = character.y
+    characterRolling.isVisible = false
+
+   
+
+  elseif ( characterf == 2)then
+     character = display.newImageRect("Images/DinoCharacter.png",75, 125)
+   character.x = display.contentCenterX
+   character.y = display.contentCenterY + 150
+  character.myName = "character"
+
+   character.isFixedRotation = true
+
+   
+
+    characterJumping = display.newImageRect("Images/DinoCharacterJumping.png",75, 125)
+    characterJumping.x = character.x
+    characterJumping.y = character.y
+    characterJumping.isVisible = false
+
+     characterRolling = display.newImageRect("Images/DinoCharacterRolling.png",75, 125)
+    characterRolling.x = character.x
+    characterRolling.y = character.y
+    characterRolling.isVisible = false
+
+ elseif ( characterf == 3)then
+     character = display.newImageRect("Images/SharkCharacterNoah.png",75, 125)
+   character.x = display.contentCenterX
+   character.y = display.contentCenterY + 150
+  character.myName = "character"
+
+   character.isFixedRotation = true
+
+   
+
+    characterJumping = display.newImageRect("Images/SharkCharacterJumpingNoah.png",75, 125)
+    characterJumping.x = character.x
+    characterJumping.y = character.y
+    characterJumping.isVisible = false
+
+     characterRolling = display.newImageRect("Images/SharkCharacterRollingNoah.png",75, 125)
+    characterRolling.x = character.x
+    characterRolling.y = character.y
+    characterRolling.isVisible = false
+
+
+
+    
+  end
+end   
 ----------------------------------------------------------------------------------------
 -- GLOBAL SCENE FUNCTIONS
 -----------------------------------------------------------------------------------------
@@ -636,27 +703,7 @@ function scene:create( event )
 
     sceneGroup:insert( leftBorder )
 
-   character = display.newImageRect("Images/character.png",75, 125)
-   character.x = display.contentCenterX
-   character.y = display.contentCenterY
-  character.myName = "character"
-
-   character.isFixedRotation = true
-
-    sceneGroup:insert( character )
-
-    characterJumping = display.newImageRect("Images/characterRolling.png",75, 125)
-    characterJumping.x = character.x
-    characterJumping.y = character.y
-    characterJumping.isVisible = false
-
-     characterRolling = display.newImageRect("Images/characterJumping.png",75, 125)
-    characterRolling.x = character.x
-    characterRolling.y = character.y
-    characterRolling.isVisible = false
-
-     sceneGroup:insert( characterRolling )
-    sceneGroup:insert( characterJumping )
+ 
 
   platform1 = display.newImageRect("Images/platform.png",200, 25)
    platform1.x = display.contentCenterX
@@ -858,7 +905,10 @@ function scene:show( event )
     -- Called when the scene is still off screen (but is about to come on screen).   
     if ( phase == "will" ) then
                 -- start physics
-     
+       CharacterSelect()
+          sceneGroup:insert( character )
+  sceneGroup:insert( characterRolling )
+  sceneGroup:insert( characterJumping )
         --Rotate()
         -- set gravity
         --Reset()

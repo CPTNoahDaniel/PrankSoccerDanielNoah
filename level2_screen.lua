@@ -199,7 +199,13 @@ local function ChangeScore2( )
     rightButton.isVisible = false
     leftButton.isVisible = false
     
-
+  elseif (goal_ == 2)and
+         (goal1 == 1)then
+          goal_text.text = "2"
+          upButton.isVisible = false
+    rightButton.isVisible = false
+    leftButton.isVisible = false
+  timer.performWithDelay(2000, Level3Transition)  
   elseif (goal_ == 2)then
     goal_text.text = "2"
      upButton.isVisible = false
@@ -218,13 +224,19 @@ end
 -- changes score for user
 local function ChangeScore( )
   
-  if (goal1 == 1)then
+ if (goal1 == 1)then
     goalText.text = "1"
     upButton.isVisible = false
     rightButton.isVisible = false
     leftButton.isVisible = false
    
-
+  elseif (goal1 == 2)and
+         (goal_ == 1)then
+            goalText.text = "2"
+      upButton.isVisible = false
+    rightButton.isVisible = false
+    leftButton.isVisible = false
+  timer.performWithDelay(2000, Level3Transition)  
   elseif (goal1 == 2)then
     goalText.text = "2"
   
@@ -550,13 +562,31 @@ local function CharacterSelect( )
     characterRolling.y = character.y
     characterRolling.isVisible = false
 
+ elseif ( characterf == 3)then
+     character = display.newImageRect("Images/SharkCharacterNoah.png",75, 125)
+   character.x = display.contentCenterX
+   character.y = display.contentCenterY + 150
+  character.myName = "character"
+
+   character.isFixedRotation = true
+
+   
+
+    characterJumping = display.newImageRect("Images/SharkCharacterJumpingNoah.png",75, 125)
+    characterJumping.x = character.x
+    characterJumping.y = character.y
+    characterJumping.isVisible = false
+
+     characterRolling = display.newImageRect("Images/SharkCharacterRollingNoah.png",75, 125)
+    characterRolling.x = character.x
+    characterRolling.y = character.y
+    characterRolling.isVisible = false
 
 
 
     
   end
 end
-
 ----------------------------------------------------------------------------------------
 -- GLOBAL SCENE FUNCTIONS
 -----------------------------------------------------------------------------------------
