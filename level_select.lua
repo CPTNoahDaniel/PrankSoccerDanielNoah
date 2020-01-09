@@ -33,6 +33,10 @@ local scene = composer.newScene( sceneName )
 -----------------------------------------------------------------------------------------
 local background
 local backButton
+local level1Button
+local level2Button
+local level3Button
+local level4Button
 
 
 -----------------------------------------------------------------------------------------
@@ -51,7 +55,7 @@ local musicChannel
 
 -- Creating Transition to Main Menu Screen
 local function MainMenuTransition( )
-    composer.gotoScene( "character_select", {effect = "slideDown", time = 1000})
+    composer.gotoScene( "main_menu", {effect = "slideDown", time = 1000})
     
 if(soundOn == true)then
     transitionSoundChannel = audio.play(transitionSound)

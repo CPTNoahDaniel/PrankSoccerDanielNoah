@@ -50,7 +50,9 @@ local unMuteButton
 local border
 local coin
 local coinText
+local coinText2
 local ball
+local characterButton
 
 -----------------------------------------------------------------------------------------
 -- LOCAL SOUNDS
@@ -94,7 +96,7 @@ end
 
 -- Creating Transition to Level1 Screen
 local function LevelSelectTransition( )
-    composer.gotoScene( "character_select", {effect = "fade", time = 1000})
+    composer.gotoScene( "level_select", {effect = "fade", time = 1000})
  
     if(soundOn == true)then
     transitionSoundChannel = audio.play(transitionSound)
@@ -121,13 +123,12 @@ end
 
 local function CoinBlink3(  )
     coinText.isVisible = false
-    coin.isVisible = false
-
+    
 end
 
 local function CoinBlink2(  )
     coinText.isVisible = true
-    coin.isVisible = true
+    
     timer.performWithDelay(1000, CoinBlink3)
 
 end
@@ -165,6 +166,15 @@ local function MoveBall2( ... )
 
     --MoveBall2()
 end
+
+local function CoinNumber( ... )
+    coinText2.text = coins
+end
+
+local function CharacterTransition( ... )
+    composer.gotoScene( "character_select", {effect = "slideLeft", time = 500})
+end
+
 -----------------------------------------------------------------------------------------
 -- GLOBAL SCENE FUNCTIONS
 -----------------------------------------------------------------------------------------
@@ -189,13 +199,13 @@ function scene:create( event )
     sceneGroup:insert( background )
 
     muteButton = display.newImageRect("Images/MuteButtonPressedNoah@2x.png", 100, 100)
-    muteButton.x = 900
-    muteButton.y = 620
+    muteButton.x = 100
+    muteButton.y = 660
     muteButton.isVisible = true
 
     unMuteButton = display.newImageRect("Images/MuteButtonUnpressedNoah@2x.png", 100, 100)
-    unMuteButton.x = 900
-    unMuteButton.y = 620
+    unMuteButton.x = 100
+    unMuteButton.y = 660
     unMuteButton.isVisible = false
 
     sceneGroup:insert( muteButton )
@@ -209,8 +219,10 @@ function scene:create( event )
     sceneGroup:insert( coin )
 
     coinText = display.newText("COINS", 930, 40, nil, 50)
+    coinText2 = display.newText("0", 940, 120, nil, 60)
 
     sceneGroup:insert( coinText )
+    sceneGroup:insert( coinText2 )
 
     ball = display.newImageRect("Images/BallNoah@2x.png", 75, 75)
     ball.x = -500
@@ -229,10 +241,10 @@ function scene:create( event )
     playButton = widget.newButton( 
         {   
             -- Set its position on the screen relative to the screen size
-            x = display.contentWidth - 800,
-            y = display.contentHeight - 100,
-            width = 200,
-            height = 100,            
+            x = display.contentWidth/2 - 200,
+            y = display.contentHeight - 105,
+            width = 266.66,
+            height = 133.33,            
 
             -- Insert the images here
             defaultFile = "Images/PlayButtonUnpressedDaniel@2x.png",
@@ -248,7 +260,7 @@ function scene:create( event )
         {
             -- Set its position on the screen relative to the screen size
             x = display.contentWidth*7/8,
-            y = display.contentHeight - 300,
+            y = display.contentHeight - 420,
             width = 200,
             height = 100,  
             -- Insert the images here
@@ -268,7 +280,7 @@ function scene:create( event )
     instructionsButton = widget.newButton( 
         {
             -- Set its position on the screen relative to the screen size
-            x = display.contentWidth  - 800,
+            x = display.contentWidth*7/8,
             y = display.contentHeight - 300,
             width = 200,
             height = 100,  
@@ -280,6 +292,23 @@ function scene:create( event )
             -- When the button is released, call the Instructions transition function
             onRelease = InstructionsTransition
         } ) 
+
+     -- Creating character Button
+    characterButton = widget.newButton( 
+        {
+            -- Set its position on the screen relative to the screen size
+            x = display.contentWidth*7/8,
+            y = display.contentHeight - 120,
+            width = 200,
+            height = 200,  
+
+            -- Insert the images here
+            defaultFile = "Images/CharacterButtonUnpressed@2x.png",
+            overFile = "Images/SquareButtonPressedYourName@2x.png",
+
+            -- When the button is released, call the Instructions transition function
+            onRelease = CharacterTransition
+        } ) 
    
     -----------------------------------------------------------------------------------------
 
@@ -287,6 +316,7 @@ function scene:create( event )
     sceneGroup:insert( playButton )
     sceneGroup:insert( creditsButton )
     sceneGroup:insert( instructionsButton )
+    sceneGroup:insert( characterButton )
 
 
 end -- function scene:create( event )   
@@ -313,6 +343,7 @@ function scene:show( event )
     if ( phase == "will" ) then
        BeganCoin()
        MoveBall2()
+       CoinNumber()
     -----------------------------------------------------------------------------------------
 
     -- Called when the scene is now on screen.

@@ -200,6 +200,7 @@ local function ChangeScore2( )
     upButton.isVisible = false
     rightButton.isVisible = false
     leftButton.isVisible = false
+     coins = coins + 1
     
   elseif (goal_ == 2)and
          (goal1 == 1)then
@@ -207,17 +208,20 @@ local function ChangeScore2( )
           upButton.isVisible = false
     rightButton.isVisible = false
     leftButton.isVisible = false
+     coins = coins + 1
   timer.performWithDelay(2000, Level2Transition)  
   elseif (goal_ == 2)then
     goal_text.text = "2"
      upButton.isVisible = false
     rightButton.isVisible = false
     leftButton.isVisible = false
+     coins = coins + 1
   elseif (goal_ == 3)then
     goal_text.text = "3"
      upButton.isVisible = false
     rightButton.isVisible = false
     leftButton.isVisible = false
+     coins = coins + 1
      composer.gotoScene( "you_lose", {effect = "crossFade", time = 1000})
   end
 end
@@ -231,6 +235,7 @@ local function ChangeScore( )
     upButton.isVisible = false
     rightButton.isVisible = false
     leftButton.isVisible = false
+    coins = coins + 1
    
   elseif (goal1 == 2)and
          (goal_ == 1)then
@@ -238,12 +243,15 @@ local function ChangeScore( )
       upButton.isVisible = false
     rightButton.isVisible = false
     leftButton.isVisible = false
+     coins = coins + 1
   timer.performWithDelay(2000, Level2Transition)  
   elseif (goal1 == 2)then
     goalText.text = "2"
+     coins = coins + 1
   
   elseif (goal1 == 3)then
     goalText.text = "3"
+     coins = coins + 1
     timer.performWithDelay(2000, Level2Transition)
     
 
@@ -516,27 +524,8 @@ local function MainMenuTransition( )
 end    
 
 local function CharacterSelect( )
-  if ( characterf == 1)then
-    character = display.newImageRect("Images/character.png",75, 125)
-   character.x = display.contentCenterX
-   character.y = display.contentCenterY + 150
-  character.myName = "character"
 
-   character.isFixedRotation = true
-
-    characterJumping = display.newImageRect("Images/characterRolling.png",75, 125)
-    characterJumping.x = character.x
-    characterJumping.y = character.y
-    characterJumping.isVisible = false
-
-     characterRolling = display.newImageRect("Images/characterJumping.png",75, 125)
-    characterRolling.x = character.x
-    characterRolling.y = character.y
-    characterRolling.isVisible = false
-
-   
-
-  elseif ( characterf == 2)then
+  if ( characterf == 2)then
      character = display.newImageRect("Images/DinoCharacter.png",75, 125)
    character.x = display.contentCenterX
    character.y = display.contentCenterY + 150
@@ -575,7 +564,23 @@ local function CharacterSelect( )
     characterRolling.x = character.x
     characterRolling.y = character.y
     characterRolling.isVisible = false
+  else
+    character = display.newImageRect("Images/character.png",75, 125)
+   character.x = display.contentCenterX
+   character.y = display.contentCenterY + 150
+  character.myName = "character"
 
+   character.isFixedRotation = true
+
+    characterJumping = display.newImageRect("Images/characterRolling.png",75, 125)
+    characterJumping.x = character.x
+    characterJumping.y = character.y
+    characterJumping.isVisible = false
+
+     characterRolling = display.newImageRect("Images/characterJumping.png",75, 125)
+    characterRolling.x = character.x
+    characterRolling.y = character.y
+    characterRolling.isVisible = false
 
 
     
@@ -919,9 +924,7 @@ function scene:show( event )
     if ( phase == "will" ) then
                
                CharacterSelect()
-          sceneGroup:insert( character )
-  sceneGroup:insert( characterRolling )
-  sceneGroup:insert( characterJumping )   -- start physics
+    -- start physics
         physics.start()
         --Rotate()
         -- set gravity
@@ -934,7 +937,9 @@ function scene:show( event )
           musicChannel = audio.play(music, {loop = -1})
         end
     -----------------------------------------------------------------------------------------
-
+sceneGroup:insert( character )
+  sceneGroup:insert( characterRolling )
+  sceneGroup:insert( characterJumping ) 
     -- Called when the scene is now on screen.
     -- Insert code here to make the scene come alive.
     -- Example: start timers, begin animation, play audio, etc.

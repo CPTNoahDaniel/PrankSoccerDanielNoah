@@ -45,6 +45,11 @@ local backButton
 local character1Button
 local character2Button
 local character3Button
+local lock
+local lock2
+local fakeCharacter
+local fakeDino
+local fakeShark
 
 
 -----------------------------------------------------------------------------------------
@@ -93,6 +98,18 @@ local function ButtonFade( event )
 
 end
 
+local function Lock( ... )
+    if (coins > 3)then
+        lock.isVisible = false
+        character2Button.isVisible = true
+        fakeDino.isVisible = false
+    elseif (coins > 6)then
+         lock2.isVisible = false
+        character3Button.isVisible = true
+        fakeShark.isVisible = false
+    end
+end
+
 ----------------------------------------------------------------------------------------
 -- GLOBAL SCENE FUNCTIONS
 -----------------------------------------------------------------------------------------
@@ -114,7 +131,30 @@ function scene:create( event )
 
     sceneGroup:insert( background )
 
-   
+
+   fakeDino = display.newImageRect("Images/DinoCharacter.png", 100, 166.666667)
+    fakeDino.x = display.contentWidth/2
+    fakeDino.y = display.contentHeight - 440
+
+sceneGroup:insert( fakeDino )
+
+   fakeShark = display.newImageRect("Images/SharkCharacterNoah.png", 100, 166.666667)
+    fakeShark.x = display.contentWidth/2 + 267
+    fakeShark.y = display.contentHeight - 440
+
+sceneGroup:insert( fakeShark )
+
+    lock = display.newImageRect("Images/Lock.png", 150, 150)
+    lock.x = display.contentWidth/2
+    lock.y = display.contentHeight - 440
+
+    lock2 = display.newImageRect("Images/Lock.png", 150, 150)
+    lock2.x = display.contentWidth/2 + 267
+    lock2.y = display.contentHeight - 440
+    sceneGroup:insert( lock )
+    sceneGroup:insert( lock2 )
+
+
 
     
     -----------------------------------------------------------------------------------------
@@ -183,7 +223,7 @@ function scene:create( event )
             -- When the button is released, call the main menu screen transition function
             onRelease = Character2         
         } )
-       
+       character2Button.isVisible = false
 
 -- Creating Back Button
     character3Button = widget.newButton( 
@@ -204,7 +244,7 @@ function scene:create( event )
             -- When the button is released, call the main menu screen transition function
             onRelease = Character3         
         } )
-
+        --character3Button.isVisible = false
         
        
     -----------------------------------------------------------------------------------------
@@ -239,6 +279,8 @@ function scene:show( event )
 
     -- Called when the scene is still off screen (but is about to come on screen).   
     if ( phase == "will" ) then
+      Lock()
+
        if (soundOn == true) then
             audio.play(musicChannel)
 
