@@ -319,6 +319,7 @@ end
 
 
 --Displays goal text and gives goal
+--Displays goal text and gives goal
 local function Goal( )
   
   if (ball1.x > 895)and
@@ -334,12 +335,7 @@ local function Goal( )
      
       timer.performWithDelay(500, ChangeScore)
 
-      if(goal_ == 1)or
-        (goal_ == 2)or
-        (goal == 1)or 
-        (goal == 2)then
-          timer.performWithDelay(1500, Reset)
-      end
+      timer.performWithDelay(1500, Reset)
 
       Runtime:removeEventListener("enterFrame", Goal)
       
@@ -923,9 +919,7 @@ physics.start()
     if ( phase == "will" ) then
                 -- start physics
          CharacterSelect()
-          sceneGroup:insert( character )
-  sceneGroup:insert( characterRolling )
-  sceneGroup:insert( characterJumping )
+  
         --Rotate()
         -- set gravity
         --Reset()
@@ -937,7 +931,9 @@ physics.start()
           musicChannel = audio.play(music, {loop = -1})
         end
     -----------------------------------------------------------------------------------------
-
+        sceneGroup:insert( character )
+  sceneGroup:insert( characterRolling )
+  sceneGroup:insert( characterJumping )
     -- Called when the scene is now on screen.
     -- Insert code here to make the scene come alive.
     -- Example: start timers, begin animation, play audio, etc.
