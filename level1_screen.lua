@@ -188,7 +188,51 @@ local function Reset( )
 
 end
 
+-- resets the level
+local function Reset2( )
+  youMiss.isVisible = false
+  youHit.isVisible = false
+  platform1.isVisible = true
+  platform2.isVisible = true
+  platform3.isVisible = true
+  goalie.isVisible = true
+  bad1.isVisible = true
 
+  bad2.isVisible = true
+
+  bad3.isVisible = true
+    bad3.x = display.contentCenterX 
+  bad3.y = display.contentCenterY - 275
+    bad2.x = display.contentCenterX + 300
+  bad2.y = display.contentCenterY - 75
+    bad1.x = display.contentCenterX - 300
+  bad1.y = display.contentCenterY - 75
+  leftNet.isVisible = true
+  rightNet.isVisible = true
+  rightButton.isVisible = true
+  leftButton.isVisible = true
+  upButton.isVisible = true
+  character.x = display.contentCenterX
+  character.y = display.contentCenterY + 50
+  character.rotation = 0
+  ball1.x = display.contentCenterX
+  ball1.y = 100
+  ball1.isVisible = false
+  netBlock.isVisible = false
+  --theBad.x = theBad.x + 2000
+  physics.removeBody(ball1)
+ -- if (physics2 == true)then
+   -- physics.removeBody(topBorder2)
+   -- physics.removeBody(ball1)
+ -- end
+  --physics2 = false
+  if ( soundOn == true) then
+  goalSoundChannel = audio.play(goalSound)
+  end
+
+  
+
+end
 
 
 
@@ -773,11 +817,13 @@ bad1 = display.newImageRect("Images/OppositeTeamCharacterNoah@2x.png",75, 125)
 bad2 = display.newImageRect("Images/OppositeTeamCharacterNoah@2x.png",75, 125)
   bad2.x = display.contentCenterX + 300
   bad2.y = display.contentCenterY - 75
+
   bad2.myName = "bad2"
 
 bad3 = display.newImageRect("Images/OppositeTeamCharacterNoah@2x.png",75, 125)
   bad3.x = display.contentCenterX 
   bad3.y = display.contentCenterY - 275
+
   bad3.myName = "bad3"
   sceneGroup:insert( bad1 )
   sceneGroup:insert( bad2 )
@@ -927,6 +973,7 @@ function scene:show( event )
     -- start physics
         physics.start()
         --Rotate()
+        Reset2()
         -- set gravity
         --Reset()
         physics.setGravity( 0, 20 )

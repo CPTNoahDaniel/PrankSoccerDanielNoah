@@ -193,21 +193,12 @@ end
 --changes score for opposite team
 local function ChangeScore2( )
  
-  
-  if (goal1 == 2)and
-         (goal_ == 1)then
-            goalText.text = "2"
-      upButton.isVisible = false
-    rightButton.isVisible = false
-    leftButton.isVisible = false
-     coins = coins + 1
-  timer.performWithDelay(2000, Level3Transition)  
-  elseif (goal_ == 1)then
+  if (goal_ == 1)then
     goal_text.text = "1"
     upButton.isVisible = false
     rightButton.isVisible = false
     leftButton.isVisible = false
-   
+     coins = coins + 1
     
   elseif (goal_ == 2)and
          (goal1 == 1)then
@@ -215,20 +206,20 @@ local function ChangeScore2( )
           upButton.isVisible = false
     rightButton.isVisible = false
     leftButton.isVisible = false
-
-  composer.gotoScene( "you_lose", {effect = "crossFade", time = 1000})  
+     
+  composer.gotoScene( "you_lose", {effect = "crossFade", time = 1000})
   elseif (goal_ == 2)then
     goal_text.text = "2"
      upButton.isVisible = false
     rightButton.isVisible = false
     leftButton.isVisible = false
- 
+     coins = coins + 1
   elseif (goal_ == 3)then
     goal_text.text = "3"
      upButton.isVisible = false
     rightButton.isVisible = false
     leftButton.isVisible = false
-    
+     coins = coins + 1
      composer.gotoScene( "you_lose", {effect = "crossFade", time = 1000})
   end
 end
@@ -236,15 +227,8 @@ end
 
 -- changes score for user
 local function ChangeScore( )
-  if (goal_ == 2)and
-         (goal1 == 1)then
-          goal_text.text = "2"
-          upButton.isVisible = false
-    rightButton.isVisible = false
-    leftButton.isVisible = false
-
-  composer.gotoScene( "you_lose", {effect = "crossFade", time = 1000})  
-  elseif (goal1 == 1)then
+  
+  if (goal1 == 1)then
     goalText.text = "1"
     upButton.isVisible = false
     rightButton.isVisible = false
@@ -258,7 +242,7 @@ local function ChangeScore( )
     rightButton.isVisible = false
     leftButton.isVisible = false
      coins = coins + 1
-  timer.performWithDelay(2000, Level3Transition)  
+  Level3Transition() 
   elseif (goal1 == 2)then
     goalText.text = "2"
      coins = coins + 1
@@ -266,7 +250,7 @@ local function ChangeScore( )
   elseif (goal1 == 3)then
     goalText.text = "3"
      coins = coins + 1
-    timer.performWithDelay(2000, Level3Transition)
+    Level3Transition() 
     
 
   end
