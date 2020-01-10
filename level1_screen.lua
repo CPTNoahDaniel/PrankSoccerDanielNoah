@@ -208,8 +208,8 @@ local function ChangeScore2( )
           upButton.isVisible = false
     rightButton.isVisible = false
     leftButton.isVisible = false
-     coins = coins + 1
-  timer.performWithDelay(2000, Level2Transition)  
+     
+  composer.gotoScene( "you_lose", {effect = "crossFade", time = 1000})
   elseif (goal_ == 2)then
     goal_text.text = "2"
      upButton.isVisible = false
@@ -244,7 +244,7 @@ local function ChangeScore( )
     rightButton.isVisible = false
     leftButton.isVisible = false
      coins = coins + 1
-  timer.performWithDelay(2000, Level2Transition)  
+  Level2Transition() 
   elseif (goal1 == 2)then
     goalText.text = "2"
      coins = coins + 1
@@ -252,7 +252,7 @@ local function ChangeScore( )
   elseif (goal1 == 3)then
     goalText.text = "3"
      coins = coins + 1
-    timer.performWithDelay(2000, Level2Transition)
+    Level2Transition()
     
 
   end

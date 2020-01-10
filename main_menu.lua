@@ -96,7 +96,7 @@ end
 
 -- Creating Transition to Level1 Screen
 local function LevelSelectTransition( )
-    composer.gotoScene( "level_select", {effect = "fade", time = 1000})
+    composer.gotoScene( "character_select", {effect = "fade", time = 1000})
  
     if(soundOn == true)then
     transitionSoundChannel = audio.play(transitionSound)
