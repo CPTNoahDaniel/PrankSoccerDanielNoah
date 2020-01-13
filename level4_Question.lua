@@ -41,6 +41,7 @@ local wrongText2
 local wrongText3
 local numCorrect = 0
 local numIncorrect = 0
+local realAnswerText
 
 
 local answerPosition = 1
@@ -76,6 +77,13 @@ local selecSoundChannel
 -----------------------------------------------------------------------------------------
 --LOCAL FUNCTIONS
 -----------------------------------------------------------------------------------------
+
+local function DisplayCorrectAnswer( )
+    realAnswerText.isVisible = true
+    realAnswerText.text = "The real answer is" .. answerText1.text
+end
+
+
 local function DisplayQuestion2()
     --creating random numbers
     firstNumber = math.random (1,12)
@@ -340,7 +348,8 @@ local function TouchListenerAnswer(touch)
        
         numCorrect = numCorrect + 1
 
-        Calculate2()
+         DisplayCorrectAnswer()
+        timer.performWithDelay(2000, Calculate2)
     
     end 
 end
@@ -403,6 +412,8 @@ elseif (firstNumber == 5)then
     questionText.text = " Are rocks alive? " 
 
     TrueOrFalse()
+    answerBox.isVisible = false
+    answerBox3.isVisible = false
     --creating answer text from list it corispondes with the animals list
     answerText1.text = " No "
     
@@ -416,6 +427,8 @@ elseif (firstNumber == 6)then
     questionText.text = " Is technology part of science? " 
 
     TrueOrFalse()
+       answerBox.isVisible = false
+    answerBox3.isVisible = false
     --creating answer text from list it corispondes with the animals list
     answerText1.text = " Yes "
     
@@ -441,6 +454,8 @@ elseif (firstNumber == 8)then
     questionText.text = " Do plants breathe? " 
 
     TrueOrFalse()
+       answerBox.isVisible = false
+    answerBox3.isVisible = false
     --creating answer text from list it corispondes with the animals list
     answerText1.text = " Yes "
     
@@ -514,6 +529,8 @@ elseif (firstNumber == 14)then
     questionText.text = " Is space real? " 
 
     TrueOrFalse()
+       answerBox.isVisible = false
+    answerBox3.isVisible = false
     --creating answer text from list it corispondes with the animals list
     answerText1.text = " Yes "
     
@@ -539,6 +556,8 @@ elseif (firstNumber == 16)then
     questionText.text = " Can we survive only eating plants? " 
 
     TrueOrFalse()
+       answerBox.isVisible = false
+    answerBox3.isVisible = false
     --creating answer text from list it corispondes with the animals list
     answerText1.text = " Yes "
     
@@ -552,6 +571,8 @@ elseif (firstNumber == 17)then
     questionText.text = " Is science important? " 
 
     TrueOrFalse()
+       answerBox.isVisible = false
+    answerBox3.isVisible = false
     --creating answer text from list it corispondes with the animals list
     answerText1.text = " Yes "
     
@@ -566,6 +587,8 @@ elseif (firstNumber == 18)then
     questionText.text = " Is space big? " 
 
     TrueOrFalse()
+       answerBox.isVisible = false
+    answerBox3.isVisible = false
     --creating answer text from list it corispondes with the animals list
     answerText1.text = " No "
     
@@ -591,6 +614,8 @@ elseif (firstNumber == 20)then
     questionText.text = " Is language science? " 
 
     TrueOrFalse()
+       answerBox.isVisible = false
+    answerBox3.isVisible = false
     --creating answer text from list it corispondes with the animals list
     answerText1.text = " No "
     
@@ -603,7 +628,9 @@ end
 
 end
 
-local function PositionAnswers2(  )
+local function PositionAnswers3(  )
+ 
+
  if (trueOrFalsePosition == 1)then
         answerText1.x = X1
         answerText1.y = Y1
@@ -678,8 +705,13 @@ end
 
 
 local function Calculate( )
-    if (numCorrect == 2)then
-        
+        if( trueOrFalsePosition == 1)or
+            ( trueOrFalsePosition == 2)then
+                PositionAnswers3()
+            
+
+    elseif (numCorrect == 2)then
+        realAnswerText.isVisible = false
         composer.hideOverlay( "level2_Question", { isModal = true, effect = "fade", time = 500})      
         ResumeGameLevel4()
         --questionImage.isVisible = false
@@ -687,20 +719,17 @@ local function Calculate( )
         numIncorrect = 0
 
     elseif (numIncorrect == 2)then
-       
+       realAnswerText.isVisible = false
         composer.hideOverlay( "level2_Question", { isModal = true, effect = "fade", time = 500})
         ResumeGame2Level4()
 
         numCorrect = 0
         numIncorrect = 0
     else   
+       realAnswerText.isVisible = false 
+ DisplayQuestion2()
+        PositionAnswers2()
         
- DisplayQuestion()
-        PositionAnswers()
-        if( trueOrFalsePosition == 1)or
-            ( trueOrFalsePosition == 2)then
-                PositionAnswers2()
-            end
 
         
     end
@@ -718,7 +747,8 @@ local function TouchListenerWrongAnswer(touch)
     if (touch.phase == "ended") then
     
         numIncorrect = numIncorrect + 1
-        Calculate()
+         DisplayCorrectAnswer()
+        timer.performWithDelay(2000, Calculate)
         
         
     end 
@@ -733,7 +763,8 @@ local function TouchListenerWrongAnswer2(touch)
     if (touch.phase == "ended") then
 
         numIncorrect = numIncorrect + 1
-        Calculate()
+        DisplayCorrectAnswer()
+        timer.performWithDelay(2000, Calculate)
         
     end 
 end
@@ -747,7 +778,8 @@ local function TouchListenerWrongAnswer3(touch)
     
     if (touch.phase == "ended") then
         numIncorrect = numIncorrect + 1
-        Calculate()
+        DisplayCorrectAnswer()
+        timer.performWithDelay(2000, Calculate)
         
     end 
 end
@@ -864,6 +896,10 @@ function scene:create( event )
     wrongText3.anchorX = 0
     wrongText3:setFillColor(0/255, 0/255, 0/255)
 
+        realAnswerText = display.newText("", display.contentWidth/2, 250, Arial, 25)
+    --wrongText3.anchorX = 0
+    realAnswerText:setFillColor(0/255, 0/255, 0/255)
+
 
     -----------------------------------------------------------------------------------------
 
@@ -874,6 +910,7 @@ function scene:create( event )
     sceneGroup:insert(wrongText1)
     sceneGroup:insert(wrongText2)
     sceneGroup:insert(wrongText3)
+    sceneGroup:insert(realAnswerText)
   
 
 

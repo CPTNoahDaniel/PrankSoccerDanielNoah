@@ -45,11 +45,20 @@ local backButton
 local character1Button
 local character2Button
 local character3Button
+local character4Button
 local lock
 local lock2
+local lock3
 local fakeCharacter
 local fakeDino
 local fakeShark
+local fakePurple
+local coin1
+local coin2
+local coin3
+local coin5
+local coinBox
+local coinText2
 
 
 -----------------------------------------------------------------------------------------
@@ -91,6 +100,10 @@ local function Character3( )
     composer.gotoScene( "level_select", {effect = "slideDown", time = 1000})
 end
 
+local function Character4( )
+    characterf = 4
+    composer.gotoScene( "level_select", {effect = "slideDown", time = 1000})
+end
 -- fades in the buttons
 local function ButtonFade( event )
     backButton.alpha = backButton.alpha + 0.006
@@ -99,14 +112,23 @@ local function ButtonFade( event )
 end
 
 local function Lock( ... )
-    if (coins > 3)then
+    if (coins > 2)then
         lock.isVisible = false
         character2Button.isVisible = true
         fakeDino.isVisible = false
-    elseif (coins > 6)then
+        coin1.isVisible = false
+    end
+    if (coins > 5)then
          lock2.isVisible = false
         character3Button.isVisible = true
         fakeShark.isVisible = false
+            coin2.isVisible = false
+    end
+    if (coins > 8)then
+         lock3.isVisible = false
+        character4Button.isVisible = true
+        fakePurple.isVisible = false
+            coin3.isVisible = false
     end
 end
 
@@ -144,6 +166,12 @@ sceneGroup:insert( fakeDino )
 
 sceneGroup:insert( fakeShark )
 
+  fakePurple = display.newImageRect("Images/PurpleCharacterNoah.png", 100, 166.666667)
+    fakePurple.x = display.contentWidth/2 - 267
+    fakePurple.y = display.contentHeight - 200
+
+sceneGroup:insert( fakePurple )
+
     lock = display.newImageRect("Images/Lock.png", 150, 150)
     lock.x = display.contentWidth/2
     lock.y = display.contentHeight - 440
@@ -151,12 +179,52 @@ sceneGroup:insert( fakeShark )
     lock2 = display.newImageRect("Images/Lock.png", 150, 150)
     lock2.x = display.contentWidth/2 + 267
     lock2.y = display.contentHeight - 440
+
+    lock3 = display.newImageRect("Images/Lock.png", 150, 150)
+    lock3.x = display.contentWidth/2 - 267
+    lock3.y = display.contentHeight - 200
+   
+
     sceneGroup:insert( lock )
     sceneGroup:insert( lock2 )
+    sceneGroup:insert( lock3 )
+
+coin1 = display.newText("3 COINS", 480, 425, nil, 30)
+coin1.x = display.contentWidth/2
+coin1.y = 425
+
+coin2 = display.newText("6 COINS", 480, 425, nil, 30)
+coin2.x = display.contentWidth/2 + 267
+coin2.y = 425
+
+coin3 = display.newText("9 COINS", 480, 425, nil, 30)
+coin3.x = display.contentWidth/2 - 267
+coin3.y = 665
+    
+
+     sceneGroup:insert( coin1 )
+    sceneGroup:insert( coin2 )
+    sceneGroup:insert( coin3 )
 
 
+    coinBox = display.newRect(display.contentWidth/2,170,140,66.666)
+    coinBox:setFillColor(0/255, 0/255, 0/255)
+    coinBox.strokeWidth = 10
+    coinBox:setStrokeColor(255/255, 255/255, 255/255)
+      
+sceneGroup:insert( coinBox )
+
+      coin5 = display.newImageRect("Images/CoinNoah@2x.png", 50, 50)
+    coin5.x = display.contentWidth/2 - 35
+    coin5.y = 170
+    
+    sceneGroup:insert( coin5 )
+
+   
+    coinText2 = display.newText("0", display.contentWidth/2 + 35, 170, nil, 60)
 
     
+    sceneGroup:insert( coinText2 )
     -----------------------------------------------------------------------------------------
     -- BUTTON WIDGETS
     -----------------------------------------------------------------------------------------   
@@ -244,8 +312,30 @@ sceneGroup:insert( fakeShark )
             -- When the button is released, call the main menu screen transition function
             onRelease = Character3         
         } )
+    character3Button.isVisible = false
         --character3Button.isVisible = false
         
+
+        character4Button = widget.newButton( 
+        {   
+            -- Set its position on the screen relative to the screen size
+            x = display.contentWidth/2 - 267,
+            y = display.contentHeight - 200,
+            width = 100,
+            height = 166.666667,
+          
+
+            
+
+            -- Insert the images here
+            defaultFile = "Images/PurpleCharacterNoah.png",
+            overFile = "Images/PurpleCharacterJumpingNoah.png",
+
+            -- When the button is released, call the main menu screen transition function
+            onRelease = Character4         
+        } )
+    character4Button.isVisible = false
+        --character3Button.isVisible = false
        
     -----------------------------------------------------------------------------------------
     
@@ -253,6 +343,7 @@ sceneGroup:insert( fakeShark )
     sceneGroup:insert( character2Button )
       sceneGroup:insert( character1Button )
       sceneGroup:insert( character3Button )
+      sceneGroup:insert( character4Button )
         sceneGroup:insert( backButton )
     
 

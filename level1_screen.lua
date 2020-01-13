@@ -76,6 +76,10 @@ local physics1 = true
 local physics2 = false
 local topBorder2
 local theBad
+local coinBox
+local coinText
+local coinText2
+local coin
 
 
 -----------------------------------------------------------------------------------------
@@ -104,10 +108,21 @@ local badSoundChannel
 -----------------------------------------------------------------------------------------
 -- LOCAL FUNCTIONS
 -----------------------------------------------------------------------------------------
+local function DisCharacter( ... )
+   character.x = character.x + 4000
+  -- body
+end
+
+
+local function CoinNumber( ... )
+    coinText2.text = coins
+end
+
 local function Level2Transition()
+    
 
     composer.gotoScene( "level2_screen", {effect = "crossFade", time = 1000})
-  
+
 end
 
 local function AddPhysicsBodies()
@@ -212,6 +227,7 @@ local function Reset2( )
   rightButton.isVisible = true
   leftButton.isVisible = true
   upButton.isVisible = true
+
   character.x = display.contentCenterX
   character.y = display.contentCenterY + 50
   character.rotation = 0
@@ -219,6 +235,10 @@ local function Reset2( )
   ball1.y = 100
   ball1.isVisible = false
   netBlock.isVisible = false
+  goal1 = 0
+  goal_ = 0
+  goal_text.text = "0"
+  goalText.text = "0"
   --theBad.x = theBad.x + 2000
   physics.removeBody(ball1)
  -- if (physics2 == true)then
@@ -235,16 +255,25 @@ local function Reset2( )
 end
 
 
-
 --changes score for opposite team
 local function ChangeScore2( )
  
-  if (goal_ == 1)then
+ if (goal1 == 2)and
+         (goal_ == 1)then
+          goal_text.text = "1"
+          upButton.isVisible = false
+    rightButton.isVisible = false
+    leftButton.isVisible = false
+     coins = coins + 1
+    CoinNumber()
+           character.x = character.x + 4000
+Level2Transition()
+  elseif (goal_ == 1)then
     goal_text.text = "1"
     upButton.isVisible = false
     rightButton.isVisible = false
     leftButton.isVisible = false
-     coins = coins + 1
+
     
   elseif (goal_ == 2)and
          (goal1 == 1)then
@@ -252,20 +281,21 @@ local function ChangeScore2( )
           upButton.isVisible = false
     rightButton.isVisible = false
     leftButton.isVisible = false
-     
+         character.x = character.x + 4000
   composer.gotoScene( "you_lose", {effect = "crossFade", time = 1000})
   elseif (goal_ == 2)then
     goal_text.text = "2"
      upButton.isVisible = false
     rightButton.isVisible = false
     leftButton.isVisible = false
-     coins = coins + 1
+  
   elseif (goal_ == 3)then
     goal_text.text = "3"
      upButton.isVisible = false
     rightButton.isVisible = false
     leftButton.isVisible = false
-     coins = coins + 1
+   
+           character.x = character.x + 4000
      composer.gotoScene( "you_lose", {effect = "crossFade", time = 1000})
   end
 end
@@ -280,6 +310,7 @@ local function ChangeScore( )
     rightButton.isVisible = false
     leftButton.isVisible = false
     coins = coins + 1
+    CoinNumber()
    
   elseif (goal1 == 2)and
          (goal_ == 1)then
@@ -288,14 +319,18 @@ local function ChangeScore( )
     rightButton.isVisible = false
     leftButton.isVisible = false
      coins = coins + 1
+     CoinNumber()
+           character.x = character.x + 4000 
   Level2Transition() 
   elseif (goal1 == 2)then
     goalText.text = "2"
      coins = coins + 1
-  
+  CoinNumber()
   elseif (goal1 == 3)then
     goalText.text = "3"
      coins = coins + 1
+     CoinNumber()
+            character.x = character.x + 4000
     Level2Transition()
     
 
@@ -559,7 +594,9 @@ end
 
 -- Creating Transition to Main menu Screen
 local function MainMenuTransition( )
+
     composer.gotoScene( "level_select", {effect = "fade", time = 1000})
+   timer.performWithDelay( 1000, DisCharacter)
     audio.stop()
     if(soundOn == true)then
      channel2 = audio.play(transitionSound)
@@ -605,6 +642,26 @@ local function CharacterSelect( )
     characterJumping.isVisible = false
 
      characterRolling = display.newImageRect("Images/SharkCharacterRollingNoah.png",75, 125)
+    characterRolling.x = character.x
+    characterRolling.y = character.y
+    characterRolling.isVisible = false
+
+  elseif ( characterf == 4) then
+     character = display.newImageRect("Images/PurpleCharacterNoah.png",75, 125)
+   character.x = display.contentCenterX
+   character.y = display.contentCenterY + 150
+  character.myName = "character"
+
+   character.isFixedRotation = true
+
+   
+
+    characterJumping = display.newImageRect("Images/PurpleCharacterJumpingNoah.png",75, 125)
+    characterJumping.x = character.x
+    characterJumping.y = character.y
+    characterJumping.isVisible = false
+
+     characterRolling = display.newImageRect("Images/PurpleCharacterRollingNoah.png",75, 125)
     characterRolling.x = character.x
     characterRolling.y = character.y
     characterRolling.isVisible = false
@@ -861,6 +918,26 @@ netBorder4:rotate (-62)
     sceneGroup:insert( leftNet )
     sceneGroup:insert( rightNet )
 
+
+    coinBox = display.newRect(display.contentWidth - 940,700,140,66.666)
+    coinBox:setFillColor(0/255, 0/255, 0/255)
+    coinBox.strokeWidth = 10
+    coinBox:setStrokeColor(255/255, 255/255, 255/255)
+      
+sceneGroup:insert( coinBox )
+
+      coin = display.newImageRect("Images/CoinNoah@2x.png", 50, 50)
+    coin.x = 50
+    coin.y = 700
+    
+    sceneGroup:insert( coin )
+
+   
+    coinText2 = display.newText("0", 100, 700, nil, 60)
+
+    
+    sceneGroup:insert( coinText2 )
+
     -----------------------------------------------------------------------------------------
     -- BUTTON WIDGETS
     -----------------------------------------------------------------------------------------   
@@ -968,12 +1045,13 @@ function scene:show( event )
 
     -- Called when the scene is still off screen (but is about to come on screen).   
     if ( phase == "will" ) then
-               
+                
                CharacterSelect()
     -- start physics
         physics.start()
         --Rotate()
         Reset2()
+        CoinNumber()
         -- set gravity
         --Reset()
         physics.setGravity( 0, 20 )
@@ -1033,7 +1111,7 @@ function scene:hide( event )
              RemoveCollisionListeners()
              --RemovePhysicsBodies()
         audio.pause(channel2)
-
+  character.x = 4000
         physics.stop()
 
        

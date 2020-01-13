@@ -110,6 +110,11 @@ local function WinTransition()
   
 end
 
+
+local function CoinNumber( ... )
+    coinText2.text = coins
+end
+
 local function AddPhysicsBodies()
     --add to the physics engine
     physics.addBody( netBorder2, "static", { density=1.0, friction=0.3, bounce=0.2 } )
@@ -189,30 +194,107 @@ local function Reset( )
 end
 
 
+-- resets the level
+local function Reset2( )
+  youMiss.isVisible = false
+  youHit.isVisible = false
+  platform1.isVisible = true
+  platform2.isVisible = true
+  platform3.isVisible = true
+  goalie.isVisible = true
+  bad1.isVisible = true
+
+  bad2.isVisible = true
+
+  bad3.isVisible = true
+   bad3.x = display.contentCenterX 
+  bad3.y = display.contentCenterY - 275
+    bad2.x = display.contentCenterX + 300
+  bad2.y = display.contentCenterY - 75
+     bad1.x = display.contentCenterX - 300
+  bad1.y = display.contentCenterY - 275
+  leftNet.isVisible = true
+  rightNet.isVisible = true
+  rightButton.isVisible = true
+  leftButton.isVisible = true
+  upButton.isVisible = true
+
+  character.x = display.contentCenterX
+  character.y = display.contentCenterY + 70
+  character.rotation = 0
+  ball1.x = display.contentCenterX
+  ball1.y = 100
+  ball1.isVisible = false
+  netBlock.isVisible = false
+  goal1 = 0
+  goal_ = 0
+  goal_text.text = "0"
+  goalText.text = "0"
+  --theBad.x = theBad.x + 2000
+  physics.removeBody(ball1)
+ -- if (physics2 == true)then
+   -- physics.removeBody(topBorder2)
+   -- physics.removeBody(ball1)
+ -- end
+  --physics2 = false
+  if ( soundOn == true) then
+  goalSoundChannel = audio.play(goalSound)
+  end
+
+  
+
+end
+
+local function DisCharacter( ... )
+   character.x = 4000
+  -- body
+end
 
 
 
 --changes score for opposite team
 local function ChangeScore2( )
  
-  if (goal_ == 1)then
+ if (goal1 == 2)and
+         (goal_ == 1)then
+          goal_text.text = "1"
+          upButton.isVisible = false
+    rightButton.isVisible = false
+    leftButton.isVisible = false
+           character.x = character.x + 4000
+           coin = coin + 1
+           CoinNumber()
+timer.performWithDelay(2000, WinTransition)
+  elseif (goal_ == 1)then
     goal_text.text = "1"
     upButton.isVisible = false
     rightButton.isVisible = false
     leftButton.isVisible = false
-    
 
+    
+  elseif (goal_ == 2)and
+         (goal1 == 1)then
+          goal_text.text = "2"
+          upButton.isVisible = false
+    rightButton.isVisible = false
+    leftButton.isVisible = false
+     
+  composer.gotoScene( "you_lose", {effect = "crossFade", time = 1000})
+     
   elseif (goal_ == 2)then
     goal_text.text = "2"
      upButton.isVisible = false
     rightButton.isVisible = false
     leftButton.isVisible = false
+   
   elseif (goal_ == 3)then
     goal_text.text = "3"
      upButton.isVisible = false
     rightButton.isVisible = false
     leftButton.isVisible = false
+ 
      composer.gotoScene( "you_lose", {effect = "crossFade", time = 1000})
+      
   end
 end
 
@@ -225,19 +307,35 @@ local function ChangeScore( )
     upButton.isVisible = false
     rightButton.isVisible = false
     leftButton.isVisible = false
+    coins = coins + 1
+    CoinNumber()
    
+  elseif (goal1 == 2)and
+         (goal_ == 1)then
+            goalText.text = "2"
+      upButton.isVisible = false
+    rightButton.isVisible = false
+    leftButton.isVisible = false
+     coins = coins + 1
+     CoinNumber()
 
+  timer.performWithDelay(2000, WinTransition)
+   
   elseif (goal1 == 2)then
     goalText.text = "2"
+     coins = coins + 1
+     CoinNumber()
   
   elseif (goal1 == 3)then
     goalText.text = "3"
-    timer.performWithDelay(2000, WinTransition)
+     coins = coins + 1
+     CoinNumber()
+   timer.performWithDelay(2000, WinTransition)
+      
     
 
   end
 end
-
 
 --Collision for questions
 local function onCollision( self, event )
@@ -276,6 +374,11 @@ local function onCollision( self, event )
            
         end
 end
+
+
+
+
+
 
 -- collision for the ball and net
 local function ballCollision( self, event )
@@ -565,6 +668,26 @@ local function CharacterSelect( )
     characterRolling.y = character.y
     characterRolling.isVisible = false
 
+    elseif ( characterf == 4) then
+     character = display.newImageRect("Images/PurpleCharacterNoah.png",75, 125)
+   character.x = display.contentCenterX
+   character.y = display.contentCenterY + 150
+  character.myName = "character"
+
+   character.isFixedRotation = true
+
+   
+
+    characterJumping = display.newImageRect("Images/PurpleCharacterJumpingNoah.png",75, 125)
+    characterJumping.x = character.x
+    characterJumping.y = character.y
+    characterJumping.isVisible = false
+
+     characterRolling = display.newImageRect("Images/PurpleCharacterRollingNoah.png",75, 125)
+    characterRolling.x = character.x
+    characterRolling.y = character.y
+    characterRolling.isVisible = false
+
 
 
     
@@ -801,6 +924,27 @@ netBorder4:rotate (-62)
     sceneGroup:insert( leftNet )
     sceneGroup:insert( rightNet )
 
+
+
+    coinBox = display.newRect(display.contentWidth - 940,700,140,66.666)
+    coinBox:setFillColor(0/255, 0/255, 0/255)
+    coinBox.strokeWidth = 10
+    coinBox:setStrokeColor(255/255, 255/255, 255/255)
+      
+sceneGroup:insert( coinBox )
+
+      coin = display.newImageRect("Images/CoinNoah@2x.png", 50, 50)
+    coin.x = 50
+    coin.y = 700
+    
+    sceneGroup:insert( coin )
+
+   
+    coinText2 = display.newText("0", 100, 700, nil, 60)
+
+    
+    sceneGroup:insert( coinText2 )
+
     -----------------------------------------------------------------------------------------
     -- BUTTON WIDGETS
     -----------------------------------------------------------------------------------------   
@@ -820,7 +964,7 @@ netBorder4:rotate (-62)
             -- When the button is released, call the Level1 screen transition function
             onRelease = MainMenuTransition          
         } )
-        backButton.width = 150
+         backButton.width = 150
         backButton.height = 75
 
         sceneGroup:insert( backButton )
@@ -910,6 +1054,7 @@ function scene:show( event )
     if ( phase == "will" ) then
                 -- start physics
         CharacterSelect()
+        Reset2()
           sceneGroup:insert( character )
   sceneGroup:insert( characterRolling )
   sceneGroup:insert( characterJumping )
@@ -969,6 +1114,7 @@ function scene:hide( event )
     elseif ( phase == "did" ) then
         -- Called immediately after scene goes off screen.
              RemoveCollisionListeners()
+             DisCharacter()
              --RemovePhysicsBodies()
         audio.pause(channel2)
 

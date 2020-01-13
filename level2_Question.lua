@@ -3,7 +3,7 @@
 -- level2_question.lua
 -- Created by: Noah
 -- Date: December 11th, 2019
--- Description: This is the level 2 question 
+-- Description: This is the level 1 question 
 -----------------------------------------------------------------------------------------
 
 -----------------------------------------------------------------------------------------
@@ -19,7 +19,7 @@ local physics = require( "physics")
 -----------------------------------------------------------------------------------------
 
 -- Naming Scene
-sceneName = "level2_Question"
+sceneName = "level1_Question"
 
 -----------------------------------------------------------------------------------------
 
@@ -41,6 +41,7 @@ local wrongText2
 local wrongText3
 local numCorrect = 0
 local numIncorrect = 0
+local realAnswerText
 
 
 local answerPosition = 1
@@ -76,11 +77,19 @@ local selecSoundChannel
 -----------------------------------------------------------------------------------------
 --LOCAL FUNCTIONS
 -----------------------------------------------------------------------------------------
+local function DisplayCorrectAnswer( )
+    realAnswerText.isVisible = true
+    realAnswerText.text = "The real answer is" .. answerText1.text
+end
+
 local function DisplayQuestion2()
     --creating random numbers
     firstNumber = math.random (1,20)
-   
-question2Image.isVisible = false
+ question2Image.isVisible = false  
+answerBox2.isVisible = true
+answerBox4.isVisible = true
+answerBox.isVisible = true
+answerBox3.isVisible = true
 if (firstNumber == 1) then
 
     --creating the question depending on the selcetion number
@@ -322,11 +331,9 @@ elseif (firstNumber == 20)then
     wrongText3.text = " Just from soil "
 
 end
-
 end
 
-
-local function PositionAnswers2()
+local function PositionAnswers3()
 
     --creating random start position in a cretain area
     answerPosition = math.random(1,3)
@@ -384,7 +391,7 @@ end
 local function Calculate2( )
     if (numCorrect == 2)then
         
-        composer.hideOverlay( "level2_Question", { isModal = true, effect = "fade", time = 500})      
+        composer.hideOverlay( "level1_Question", { isModal = true, effect = "fade", time = 500})      
         ResumeGameLevel2()
         
         numCorrect = 0
@@ -392,15 +399,15 @@ local function Calculate2( )
 
     elseif (numIncorrect == 2)then
        
-        composer.hideOverlay( "level2_Question", { isModal = true, effect = "fade", time = 500})
+        composer.hideOverlay( "level1_Question", { isModal = true, effect = "fade", time = 500})
         ResumeGame2Level2()
 
         numCorrect = 0
         numIncorrect = 0
-    else   
+    else  
         
  DisplayQuestion2()
-        PositionAnswers2()
+        PositionAnswers3()
        
 
         
@@ -425,8 +432,8 @@ local function TouchListenerAnswer(touch)
     if (touch.phase == "ended") then
        
         numCorrect = numCorrect + 1
-
-        Calculate2()
+         
+       Calculate2()
     
     end 
 end
@@ -434,7 +441,19 @@ end
 local function DisplayQuestion()
     --creating random numbers
     firstNumber = math.random (1,20)
-   
+   answerBox.isVisible = true
+answerBox3.isVisible = true
+
+
+
+
+
+
+
+
+
+
+
 
 if (firstNumber == 1) then
 
@@ -765,7 +784,7 @@ end
 
 local function Calculate( )
     if (numCorrect == 2)then
-        
+         realAnswerText.isVisible = false
         composer.hideOverlay( "level2_Question", { isModal = true, effect = "fade", time = 500})      
         ResumeGameLevel2()
         --questionImage.isVisible = false
@@ -773,19 +792,19 @@ local function Calculate( )
         numIncorrect = 0
 
     elseif (numIncorrect == 2)then
-       
+        realAnswerText.isVisible = false
         composer.hideOverlay( "level2_Question", { isModal = true, effect = "fade", time = 500})
         ResumeGame2Level2()
 
         numCorrect = 0
         numIncorrect = 0
     else   
-        
- DisplayQuestion()
-        PositionAnswers()
+        realAnswerText.isVisible = false
+ DisplayQuestion2()
+        PositionAnswers3()
         if( trueOrFalsePosition == 1)or
             ( trueOrFalsePosition == 2)then
-                PositionAnswers2()
+                PositionAnswers()
             end
 
         
@@ -804,7 +823,8 @@ local function TouchListenerWrongAnswer(touch)
     if (touch.phase == "ended") then
     
         numIncorrect = numIncorrect + 1
-        Calculate()
+        DisplayCorrectAnswer()
+        timer.performWithDelay(2000, Calculate)
         
         
     end 
@@ -819,7 +839,8 @@ local function TouchListenerWrongAnswer2(touch)
     if (touch.phase == "ended") then
 
         numIncorrect = numIncorrect + 1
-        Calculate()
+        DisplayCorrectAnswer()
+        timer.performWithDelay(2000, Calculate)
         
     end 
 end
@@ -833,7 +854,8 @@ local function TouchListenerWrongAnswer3(touch)
     
     if (touch.phase == "ended") then
         numIncorrect = numIncorrect + 1
-        Calculate()
+        DisplayCorrectAnswer()
+         timer.performWithDelay(2000, Calculate)
         
     end 
 end
@@ -893,7 +915,7 @@ function scene:create( event )
     sceneGroup:insert(questionmarkText)
 
 
-    question2Image = display.newImageRect("Images/WhatIsStem.png", 200, 500)
+    question2Image = display.newImageRect("Images/WhatIsRoot.png", 200, 500)
     question2Image.x = display.contentWidth/2 - 380
     question2Image.y = display.contentHeight/2 + 50
     question2Image.strokeWidth = 9
@@ -950,6 +972,11 @@ function scene:create( event )
     wrongText3.anchorX = 0
     wrongText3:setFillColor(0/255, 0/255, 0/255)
 
+    realAnswerText = display.newText("", display.contentWidth/2, 250, Arial, 25)
+    --wrongText3.anchorX = 0
+    realAnswerText:setFillColor(0/255, 0/255, 0/255)
+
+
 
     -----------------------------------------------------------------------------------------
 
@@ -960,6 +987,7 @@ function scene:create( event )
     sceneGroup:insert(wrongText1)
     sceneGroup:insert(wrongText2)
     sceneGroup:insert(wrongText3)
+    sceneGroup:insert(realAnswerText)
   
 
 

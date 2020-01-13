@@ -41,6 +41,7 @@ local wrongText2
 local wrongText3
 local numCorrect = 0
 local numIncorrect = 0
+local realAnswerText
 
 
 local answerPosition = 1
@@ -76,6 +77,11 @@ local selecSoundChannel
 -----------------------------------------------------------------------------------------
 --LOCAL FUNCTIONS
 -----------------------------------------------------------------------------------------
+local function DisplayCorrectAnswer( )
+    realAnswerText.isVisible = true
+    realAnswerText.text = "The real answer is" .. answerText1.text
+end
+
 local function DisplayQuestion2()
     --creating random numbers
     firstNumber = math.random (1,20)
@@ -329,7 +335,7 @@ end
 
 end
 
-local function PositionAnswers2()
+local function PositionAnswers3()
 
     --creating random start position in a cretain area
     answerPosition = math.random(1,3)
@@ -387,7 +393,7 @@ end
 local function Calculate2( )
     if (numCorrect == 2)then
         
-        composer.hideOverlay( "level1_Question", { isModal = true, effect = "fade", time = 500})      
+        composer.hideOverlay( "level2_Question", { isModal = true, effect = "fade", time = 500})      
         ResumeGameLevel1()
         
         numCorrect = 0
@@ -395,7 +401,7 @@ local function Calculate2( )
 
     elseif (numIncorrect == 2)then
        
-        composer.hideOverlay( "level1_Question", { isModal = true, effect = "fade", time = 500})
+        composer.hideOverlay( "level2_Question", { isModal = true, effect = "fade", time = 500})
         ResumeGame2Level1()
 
         numCorrect = 0
@@ -403,11 +409,11 @@ local function Calculate2( )
     else  
         
  DisplayQuestion2()
-        PositionAnswers2()
+        PositionAnswers3()
        
 
         
-    end
+    end 
 end
 
 local function Question2( )
@@ -428,8 +434,8 @@ local function TouchListenerAnswer(touch)
     if (touch.phase == "ended") then
        
         numCorrect = numCorrect + 1
-
-        Calculate2()
+        -- DisplayCorrectAnswer()
+       Calculate2()
     
     end 
 end
@@ -770,7 +776,7 @@ end
 
 local function Calculate( )
     if (numCorrect == 2)then
-        
+         realAnswerText.isVisible = false
         composer.hideOverlay( "level2_Question", { isModal = true, effect = "fade", time = 500})      
         ResumeGameLevel1()
         --questionImage.isVisible = false
@@ -778,19 +784,19 @@ local function Calculate( )
         numIncorrect = 0
 
     elseif (numIncorrect == 2)then
-       
+        realAnswerText.isVisible = false
         composer.hideOverlay( "level2_Question", { isModal = true, effect = "fade", time = 500})
         ResumeGame2Level1()
 
         numCorrect = 0
         numIncorrect = 0
     else   
-        
- DisplayQuestion()
-        PositionAnswers()
+        realAnswerText.isVisible = false
+ DisplayQuestion2()
+        PositionAnswers3()
         if( trueOrFalsePosition == 1)or
             ( trueOrFalsePosition == 2)then
-                PositionAnswers2()
+                PositionAnswers()
             end
 
         
@@ -809,7 +815,8 @@ local function TouchListenerWrongAnswer(touch)
     if (touch.phase == "ended") then
     
         numIncorrect = numIncorrect + 1
-        Calculate()
+        DisplayCorrectAnswer()
+        timer.performWithDelay(2000, Calculate)
         
         
     end 
@@ -824,7 +831,8 @@ local function TouchListenerWrongAnswer2(touch)
     if (touch.phase == "ended") then
 
         numIncorrect = numIncorrect + 1
-        Calculate()
+        DisplayCorrectAnswer()
+        timer.performWithDelay(2000, Calculate)
         
     end 
 end
@@ -838,7 +846,8 @@ local function TouchListenerWrongAnswer3(touch)
     
     if (touch.phase == "ended") then
         numIncorrect = numIncorrect + 1
-        Calculate()
+        DisplayCorrectAnswer()
+         timer.performWithDelay(2000, Calculate)
         
     end 
 end
@@ -955,6 +964,11 @@ function scene:create( event )
     wrongText3.anchorX = 0
     wrongText3:setFillColor(0/255, 0/255, 0/255)
 
+    realAnswerText = display.newText("", display.contentWidth/2, 250, Arial, 25)
+    --wrongText3.anchorX = 0
+    realAnswerText:setFillColor(0/255, 0/255, 0/255)
+
+
 
     -----------------------------------------------------------------------------------------
 
@@ -965,6 +979,7 @@ function scene:create( event )
     sceneGroup:insert(wrongText1)
     sceneGroup:insert(wrongText2)
     sceneGroup:insert(wrongText3)
+    sceneGroup:insert(realAnswerText)
   
 
 

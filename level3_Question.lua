@@ -41,6 +41,7 @@ local wrongText2
 local wrongText3
 local numCorrect = 0
 local numIncorrect = 0
+local realAnswerText
 
 
 local answerPosition = 1
@@ -76,6 +77,12 @@ local selecSoundChannel
 -----------------------------------------------------------------------------------------
 --LOCAL FUNCTIONS
 -----------------------------------------------------------------------------------------
+
+local function DisplayCorrectAnswer( )
+    realAnswerText.isVisible = true
+    realAnswerText.text = "The real answer is" .. answerText1.text
+end
+
 local function DisplayQuestion2()
     --creating random numbers
     firstNumber = math.random (1,12)
@@ -862,6 +869,10 @@ function scene:create( event )
     wrongText3.anchorX = 0
     wrongText3:setFillColor(0/255, 0/255, 0/255)
 
+        realAnswerText = display.newText("", display.contentWidth/2, 250, Arial, 25)
+    --wrongText3.anchorX = 0
+    realAnswerText:setFillColor(0/255, 0/255, 0/255)
+
 
     -----------------------------------------------------------------------------------------
 
@@ -872,6 +883,7 @@ function scene:create( event )
     sceneGroup:insert(wrongText1)
     sceneGroup:insert(wrongText2)
     sceneGroup:insert(wrongText3)
+    sceneGroup:insert(realAnswerText)
   
 
 
