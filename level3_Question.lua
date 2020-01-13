@@ -302,7 +302,7 @@ end
 
 local function Calculate2( )
     if (numCorrect == 2)then
-        
+         realAnswerText.isVisible = false
         composer.hideOverlay( "level3_Question", { isModal = true, effect = "fade", time = 500})      
         ResumeGameLevel3()
         
@@ -310,14 +310,14 @@ local function Calculate2( )
         numIncorrect = 0
 
     elseif (numIncorrect == 2)then
-       
+        realAnswerText.isVisible = false
         composer.hideOverlay( "level3_Question", { isModal = true, effect = "fade", time = 500})
         ResumeGame2Level3()
 
         numCorrect = 0
         numIncorrect = 0
     else   
-        
+         realAnswerText.isVisible = false
  DisplayQuestion2()
         PositionAnswers2()
        
@@ -684,13 +684,13 @@ end
 
 local function Calculate( )
     if (numCorrect == 2)then
-        
+         realAnswerText.isVisible = false
         composer.hideOverlay( "level2_Question", { isModal = true, effect = "fade", time = 500})      
         ResumeGameLevel3()
         --questionImage.isVisible = false
         numCorrect = 0
         numIncorrect = 0
-
+ realAnswerText.isVisible = false
     elseif (numIncorrect == 2)then
        
         composer.hideOverlay( "level2_Question", { isModal = true, effect = "fade", time = 500})
@@ -699,7 +699,7 @@ local function Calculate( )
         numCorrect = 0
         numIncorrect = 0
     else   
-        
+         realAnswerText.isVisible = false
  DisplayQuestion()
         PositionAnswers()
         if( trueOrFalsePosition == 1)or
@@ -723,7 +723,8 @@ local function TouchListenerWrongAnswer(touch)
     if (touch.phase == "ended") then
     
         numIncorrect = numIncorrect + 1
-        Calculate()
+        DisplayCorrectAnswer()
+        timer.performWithDelay(2000, Calculate)
         
         
     end 
@@ -738,7 +739,8 @@ local function TouchListenerWrongAnswer2(touch)
     if (touch.phase == "ended") then
 
         numIncorrect = numIncorrect + 1
-        Calculate()
+         DisplayCorrectAnswer()
+        timer.performWithDelay(2000, Calculate)
         
     end 
 end
@@ -752,7 +754,8 @@ local function TouchListenerWrongAnswer3(touch)
     
     if (touch.phase == "ended") then
         numIncorrect = numIncorrect + 1
-        Calculate()
+         DisplayCorrectAnswer()
+        timer.performWithDelay(2000, Calculate)
         
     end 
 end

@@ -59,6 +59,8 @@ local coin3
 local coin5
 local coinBox
 local coinText2
+local fakepowerUp
+local powerUpButton
 
 
 -----------------------------------------------------------------------------------------
@@ -73,7 +75,9 @@ local musicChannel
 -----------------------------------------------------------------------------------------
 -- LOCAL FUNCTIONS
 -----------------------------------------------------------------------------------------
-
+local function CoinNumber( ... )
+    coinText2.text = coins
+end
 
 -- Creating Transition to Main Menu Screen
 local function MainMenuTransition( )
@@ -132,6 +136,14 @@ local function Lock( ... )
     end
 end
 
+local function PowerUp( )
+    if (coins > 2) then
+        coins = coins - 3
+        CoinNumber()
+        power = true
+        composer.gotoScene( "level_select", {effect = "slideDown", time = 1000})
+    end
+end
 ----------------------------------------------------------------------------------------
 -- GLOBAL SCENE FUNCTIONS
 -----------------------------------------------------------------------------------------
@@ -225,6 +237,20 @@ sceneGroup:insert( coinBox )
 
     
     sceneGroup:insert( coinText2 )
+
+
+    fakepowerUp = display.newImageRect("Images/PowerUp1.png", 100, 100)
+    fakepowerUp.x = display.contentWidth/2
+    fakepowerUp.y = display.contentHeight - 200
+
+
+    fakepowerUpText = display.newText("3 Coins EACH", 480, 425, nil, 20)
+    fakepowerUpText.x = display.contentWidth/2
+    fakepowerUpText.y = 665
+
+    sceneGroup:insert( fakepowerUp )
+    sceneGroup:insert( fakepowerUpText )
+
     -----------------------------------------------------------------------------------------
     -- BUTTON WIDGETS
     -----------------------------------------------------------------------------------------   
@@ -337,6 +363,25 @@ sceneGroup:insert( coinBox )
     character4Button.isVisible = false
         --character3Button.isVisible = false
        
+
+        powerUpButton = widget.newButton( 
+        {   
+            -- Set its position on the screen relative to the screen size
+            x = display.contentWidth/2,
+            y = display.contentHeight - 200,
+            width = 100,
+            height = 100,
+          
+
+            
+
+            -- Insert the images here
+            defaultFile = "Images/PowerUp1.png",
+            overFile = "Images/PowerUp1.png",
+
+            -- When the button is released, call the main menu screen transition function
+            onRelease = PowerUp        
+        } )
     -----------------------------------------------------------------------------------------
     
     -----------------------------------------------------------------------------------------
@@ -345,6 +390,7 @@ sceneGroup:insert( coinBox )
       sceneGroup:insert( character3Button )
       sceneGroup:insert( character4Button )
         sceneGroup:insert( backButton )
+        sceneGroup:insert( powerUpButton )
     
 
     
@@ -371,7 +417,7 @@ function scene:show( event )
     -- Called when the scene is still off screen (but is about to come on screen).   
     if ( phase == "will" ) then
       Lock()
-
+CoinNumber()
        if (soundOn == true) then
             audio.play(musicChannel)
 

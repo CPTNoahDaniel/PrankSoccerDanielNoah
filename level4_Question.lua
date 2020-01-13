@@ -1,6 +1,6 @@
 ----------------------------------------------------------------------------------------
 --
--- level4_question.lua
+-- level2_question.lua
 -- Created by: Noah
 -- Date: December 11th, 2019
 -- Description: This is the level 4 question 
@@ -82,7 +82,6 @@ local function DisplayCorrectAnswer( )
     realAnswerText.isVisible = true
     realAnswerText.text = "The real answer is" .. answerText1.text
 end
-
 
 local function DisplayQuestion2()
     --creating random numbers
@@ -305,22 +304,22 @@ end
 
 local function Calculate2( )
     if (numCorrect == 2)then
-        
-        composer.hideOverlay( "level4_Question", { isModal = true, effect = "fade", time = 500})      
+         realAnswerText.isVisible = false
+        composer.hideOverlay( "level3_Question", { isModal = true, effect = "fade", time = 500})      
         ResumeGameLevel4()
         
         numCorrect = 0
         numIncorrect = 0
 
     elseif (numIncorrect == 2)then
-       
-        composer.hideOverlay( "level4_Question", { isModal = true, effect = "fade", time = 500})
+        realAnswerText.isVisible = false
+        composer.hideOverlay( "level3_Question", { isModal = true, effect = "fade", time = 500})
         ResumeGame2Level4()
 
         numCorrect = 0
         numIncorrect = 0
     else   
-        
+         realAnswerText.isVisible = false
  DisplayQuestion2()
         PositionAnswers2()
        
@@ -348,8 +347,7 @@ local function TouchListenerAnswer(touch)
        
         numCorrect = numCorrect + 1
 
-         DisplayCorrectAnswer()
-        timer.performWithDelay(2000, Calculate2)
+        Calculate2()
     
     end 
 end
@@ -628,9 +626,7 @@ end
 
 end
 
-local function PositionAnswers3(  )
- 
-
+local function PositionAnswers2(  )
  if (trueOrFalsePosition == 1)then
         answerText1.x = X1
         answerText1.y = Y1
@@ -705,31 +701,29 @@ end
 
 
 local function Calculate( )
-        if( trueOrFalsePosition == 1)or
-            ( trueOrFalsePosition == 2)then
-                PositionAnswers3()
-            
-
-    elseif (numCorrect == 2)then
-        realAnswerText.isVisible = false
-        composer.hideOverlay( "level2_Question", { isModal = true, effect = "fade", time = 500})      
+    if (numCorrect == 2)then
+         realAnswerText.isVisible = false
+        composer.hideOverlay( "level4_Question", { isModal = true, effect = "fade", time = 500})      
         ResumeGameLevel4()
         --questionImage.isVisible = false
         numCorrect = 0
         numIncorrect = 0
 
     elseif (numIncorrect == 2)then
-       realAnswerText.isVisible = false
-        composer.hideOverlay( "level2_Question", { isModal = true, effect = "fade", time = 500})
+        realAnswerText.isVisible = false
+        composer.hideOverlay( "level4_Question", { isModal = true, effect = "fade", time = 500})
         ResumeGame2Level4()
 
         numCorrect = 0
         numIncorrect = 0
     else   
-       realAnswerText.isVisible = false 
- DisplayQuestion2()
-        PositionAnswers2()
-        
+         realAnswerText.isVisible = false
+ DisplayQuestion()
+        PositionAnswers()
+        if( trueOrFalsePosition == 1)or
+            ( trueOrFalsePosition == 2)then
+                PositionAnswers2()
+            end
 
         
     end
@@ -747,7 +741,7 @@ local function TouchListenerWrongAnswer(touch)
     if (touch.phase == "ended") then
     
         numIncorrect = numIncorrect + 1
-         DisplayCorrectAnswer()
+       DisplayCorrectAnswer()
         timer.performWithDelay(2000, Calculate)
         
         
@@ -763,7 +757,7 @@ local function TouchListenerWrongAnswer2(touch)
     if (touch.phase == "ended") then
 
         numIncorrect = numIncorrect + 1
-        DisplayCorrectAnswer()
+     DisplayCorrectAnswer()
         timer.performWithDelay(2000, Calculate)
         
     end 

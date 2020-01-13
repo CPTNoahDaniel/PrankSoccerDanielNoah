@@ -392,7 +392,7 @@ end
 
 local function Calculate2( )
     if (numCorrect == 2)then
-        
+         realAnswerText.isVisible = false
         composer.hideOverlay( "level2_Question", { isModal = true, effect = "fade", time = 500})      
         ResumeGameLevel1()
         
@@ -400,14 +400,14 @@ local function Calculate2( )
         numIncorrect = 0
 
     elseif (numIncorrect == 2)then
-       
+        realAnswerText.isVisible = false
         composer.hideOverlay( "level2_Question", { isModal = true, effect = "fade", time = 500})
         ResumeGame2Level1()
 
         numCorrect = 0
         numIncorrect = 0
     else  
-        
+         realAnswerText.isVisible = false
  DisplayQuestion2()
         PositionAnswers3()
        

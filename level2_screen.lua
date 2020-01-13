@@ -1040,7 +1040,7 @@ function scene:show( event )
 physics.start()
     -- Called when the scene is still off screen (but is about to come on screen).   
     if ( phase == "will" ) then
-                -- start physics
+              CoinNumber()    -- start physics
          CharacterSelect()
   Reset2()
         --Rotate()
