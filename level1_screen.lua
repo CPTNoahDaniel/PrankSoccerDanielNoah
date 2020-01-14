@@ -81,6 +81,9 @@ local coinBox
 local coinText
 local coinText2
 local coin
+local powerBox
+local powerUp
+local powerText
 
 
 -----------------------------------------------------------------------------------------
@@ -117,6 +120,10 @@ end
 
 local function CoinNumber( ... )
     coinText2.text = coins
+end
+
+local function PowerNumber(  )
+  powerText.text = power
 end
 
 local function Level2Transition()
@@ -939,6 +946,24 @@ sceneGroup:insert( coinBox )
     
     sceneGroup:insert( coinText2 )
 
+
+       powerBox = display.newRect(display.contentWidth - 80,700,140,66.666)
+    powerBox:setFillColor(0/255, 0/255, 0/255)
+    powerBox.strokeWidth = 10
+    powerBox:setStrokeColor(255/255, 255/255, 255/255)
+
+          powerUp = display.newImageRect("Images/PowerUp1.png", 50, 50)
+    powerUp.x = display.contentWidth - 50
+    powerUp.y = 700
+
+
+    powerText = display.newText("0", display.contentWidth - 100, 700, nil, 60)
+
+    sceneGroup:insert( powerBox )
+    sceneGroup:insert( powerUp )
+    sceneGroup:insert( powerText )
+
+
     -----------------------------------------------------------------------------------------
     -- BUTTON WIDGETS
     -----------------------------------------------------------------------------------------   
@@ -1053,6 +1078,7 @@ function scene:show( event )
         --Rotate()
         Reset2()
         CoinNumber()
+        PowerNumber()
         -- set gravity
         --Reset()
         physics.setGravity( 0, 20 )

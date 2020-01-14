@@ -61,6 +61,10 @@ local coinBox
 local coinText2
 local fakepowerUp
 local powerUpButton
+local informationText
+local powerUpsText
+local powerUpBox
+local informationCirle
 
 
 -----------------------------------------------------------------------------------------
@@ -140,7 +144,7 @@ local function PowerUp( )
     if (coins > 2) then
         coins = coins - 3
         CoinNumber()
-        power = true
+        power = power + 1
         composer.gotoScene( "level_select", {effect = "slideDown", time = 1000})
     end
 end
@@ -219,7 +223,7 @@ coin3.y = 665
     sceneGroup:insert( coin3 )
 
 
-    coinBox = display.newRect(display.contentWidth/2,170,140,66.666)
+    coinBox = display.newRect(display.contentWidth/2 - 311,170,140,66.666)
     coinBox:setFillColor(0/255, 0/255, 0/255)
     coinBox.strokeWidth = 10
     coinBox:setStrokeColor(255/255, 255/255, 255/255)
@@ -227,19 +231,33 @@ coin3.y = 665
 sceneGroup:insert( coinBox )
 
       coin5 = display.newImageRect("Images/CoinNoah@2x.png", 50, 50)
-    coin5.x = display.contentWidth/2 - 35
+    coin5.x = display.contentWidth/2 - 346
     coin5.y = 170
     
     sceneGroup:insert( coin5 )
 
    
-    coinText2 = display.newText("0", display.contentWidth/2 + 35, 170, nil, 60)
+    coinText2 = display.newText("0", display.contentWidth/2 - 276, 170, nil, 60)
 
     
     sceneGroup:insert( coinText2 )
 
 
-    fakepowerUp = display.newImageRect("Images/PowerUp1.png", 100, 100)
+    powerUpBox = display.newRect(display.contentWidth/2 + 138,display.contentHeight - 195,430,230)
+    powerUpBox:setFillColor(0/255, 0/255, 0/255)
+    powerUpBox.strokeWidth = 10
+    powerUpBox:setStrokeColor(255/255, 255/255, 255/255)
+sceneGroup:insert( powerUpBox )
+    
+   
+    powerUpsText = display.newText("POWER UPS", 480, 425, nil, 50)
+    powerUpsText.x = display.contentWidth/2 + 134.5
+    powerUpsText.y = 490
+    sceneGroup:insert( powerUpsText )
+
+
+
+fakepowerUp = display.newImageRect("Images/PowerUp1.png", 100, 100)
     fakepowerUp.x = display.contentWidth/2
     fakepowerUp.y = display.contentHeight - 200
 
@@ -251,6 +269,19 @@ sceneGroup:insert( coinBox )
     sceneGroup:insert( fakepowerUp )
     sceneGroup:insert( fakepowerUpText )
 
+
+    
+
+    informationCirle = display.newCircle(display.contentWidth/2 + 134, 570, 30)
+
+    informationText = display.newText("info", display.contentWidth/2 + 134, 570 , nil, 30)
+    informationText:setFillColor(0/255, 0/255, 255/255)
+
+
+ sceneGroup:insert( informationCirle )
+    sceneGroup:insert( informationText )
+   
+
     -----------------------------------------------------------------------------------------
     -- BUTTON WIDGETS
     -----------------------------------------------------------------------------------------   
@@ -259,8 +290,8 @@ sceneGroup:insert( coinBox )
     backButton = widget.newButton( 
         {   
             -- Set its position on the screen relative to the screen size
-            x = display.contentWidth/2,
-            y = display.contentHeight - 35,
+            x = display.contentWidth/2 - 311,
+            y = 730,
             width = 150,
             height = 75,
           

@@ -84,7 +84,7 @@ local theBad
 
 
 local musicChannel
-local music = audio.loadStream("Sounds/level1Music.mp3")
+local music = audio.loadStream("Sounds/SpaceSong.mp3")
 local channel2
 local transitionSound = audio.loadStream("Sounds/jump.mp3")
 local goalSound = audio.loadStream("Sounds/win.mp3")
@@ -563,7 +563,7 @@ if (numUp == 5) then
   timer.performWithDelay(500, Stop)
 
 else
-character:setLinearVelocity( 0, -verticalSpeed )
+character:setLinearVelocity( 0, -50 )
 numUp = numUp + 1
 end
 
@@ -577,9 +577,9 @@ local function MoveCharacterRight()
      jumpSoundChannel2 = audio.play(jumpSound2)
     end
 
-character:rotate (10)
+character:rotate (5)
 
-character:setLinearVelocity( 120, 10 )
+character:setLinearVelocity( 30, 10 )
 end
 
 --moves character left
@@ -588,9 +588,9 @@ local function MoveCharacterLeft()
   if(soundOn == true)then
      jumpSoundChannel2 = audio.play(jumpSound2)
     end
-character:rotate (-10)
+character:rotate (-5)
 
-character:setLinearVelocity( -120, 10 )
+character:setLinearVelocity( -30, 10 )
 end
 
 
@@ -1077,7 +1077,7 @@ function scene:show( event )
            AddPhysicsBodies()
           AddCollisionListeners()
            if (soundOn == true) then
-            audio.resume(musicChannel)
+            audio.resume(musicChannel, {loop = -1} )
           
         else
           
