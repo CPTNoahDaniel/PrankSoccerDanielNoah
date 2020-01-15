@@ -60,6 +60,7 @@ local coin5
 local coinBox
 local coinText2
 local fakepowerUp
+local fakepowerUp2
 local powerUpButton
 local informationText
 local powerUpsText
@@ -261,12 +262,17 @@ fakepowerUp = display.newImageRect("Images/PowerUp1.png", 100, 100)
     fakepowerUp.x = display.contentWidth/2
     fakepowerUp.y = display.contentHeight - 200
 
+fakepowerUp2 = display.newImageRect("Images/PowerUp2.png", 100, 100)
+    fakepowerUp2.x = display.contentWidth/2 + 267
+    fakepowerUp2.y = display.contentHeight - 200
 
     fakepowerUpText = display.newText("3 Coins EACH", 480, 425, nil, 20)
     fakepowerUpText.x = display.contentWidth/2
     fakepowerUpText.y = 665
 
     sceneGroup:insert( fakepowerUp )
+    sceneGroup:insert( fakepowerUp2 )
+
     sceneGroup:insert( fakepowerUpText )
 
 
