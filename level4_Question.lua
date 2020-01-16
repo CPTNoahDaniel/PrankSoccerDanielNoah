@@ -93,7 +93,7 @@ answerBox3.isVisible = true
 if (firstNumber == 1) then
 
     --creating the question depending on the selcetion number
-    questionText.text = " What do you call a person who studies science? " 
+    questionText.text = " Who works with science? " 
     --creating answer text from list it corispondes with the animals list
     answerText1.text = " A scientist "
     
@@ -198,7 +198,7 @@ elseif (firstNumber == 9)then
     
     --creating wrong answers
     wrongText1.text = " Solve math questions "
-    wrongText2.text = " Make wonderful art "
+    wrongText2.text = " Make maps "
     wrongText3.text = " Nothing "
 
 elseif (firstNumber == 10)then
@@ -238,7 +238,7 @@ elseif (firstNumber == 12)then
     --creating wrong answers
     wrongText1.text = " Rocks "
     wrongText2.text = " The sky "
-    wrongText3.text = " Nowhere "
+    wrongText3.text = " Grass "
 
 
 end
@@ -360,7 +360,7 @@ local function DisplayQuestion()
 if (firstNumber == 1) then
 
     --creating the question depending on the selcetion number
-    questionText.text = " What do you call a person who studies science? " 
+    questionText.text = " Who studies science? " 
     --creating answer text from list it corispondes with the animals list
     answerText1.text = " A scientist "
     
@@ -605,7 +605,7 @@ elseif (firstNumber == 19)then
     --creating wrong answers
     wrongText1.text = " Rocks "
     wrongText2.text = " The sky "
-    wrongText3.text = " Nowhere "
+    wrongText3.text = " Grass "
 
 elseif (firstNumber == 20)then
      --creating the question depending on the selcetion number

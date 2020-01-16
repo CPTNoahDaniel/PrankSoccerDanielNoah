@@ -217,7 +217,7 @@ elseif (firstNumber == 11)then
     questionText.text = " What do bees help plants do? " 
 
     --creating answer text from list it corispondes with the animals list
-    answerText1.text = " Spread seeds "
+    answerText1.text = " Pollinate "
     
     --creating wrong answers
     wrongText1.text = " Get food "
@@ -532,7 +532,7 @@ elseif (firstNumber == 15)then
     questionText.text = " What do bees help plants do? " 
 
     --creating answer text from list it corispondes with the animals list
-    answerText1.text = " Spread seeds "
+    answerText1.text = " Pollinate "
     
     --creating wrong answers
     wrongText1.text = " Get food "

@@ -277,7 +277,7 @@ Level4Transition()
     rightButton.isVisible = false
     leftButton.isVisible = false
      
-  composer.gotoScene( "you_lose", {effect = "crossFade", time = 1000})
+  composer.gotoScene( "you_lose", {effect = "slideLeft", time = 1000})
      
   elseif (goal_ == 2)then
     goal_text.text = "2"
@@ -291,7 +291,7 @@ Level4Transition()
     rightButton.isVisible = false
     leftButton.isVisible = false
  
-     composer.gotoScene( "you_lose", {effect = "crossFade", time = 1000})
+     composer.gotoScene( "you_lose", {effect = "slideLeft", time = 1000})
       
   end
 end

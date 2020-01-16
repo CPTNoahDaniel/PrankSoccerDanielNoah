@@ -285,7 +285,7 @@ elseif (firstNumber == 16)then
 
 elseif (firstNumber == 17)then
      --creating the question depending on the selcetion number
-    questionText.text = " What happens when a volcanoe errupts? " 
+    questionText.text = " What happens when a volcano erupts? " 
 
     --creating answer text from list it corispondes with the animals list
     answerText1.text = " Lava flows out of it "
@@ -309,7 +309,7 @@ elseif (firstNumber == 18)then
 
 elseif (firstNumber == 19)then
      --creating the question depending on the selcetion number
-    questionText.text = " What happens when a volcanoe errupts? " 
+    questionText.text = " What happens when a volcano erupts? " 
 
     --creating answer text from list it corispondes with the animals list
     answerText1.text = " Lava flows out of it "
@@ -324,7 +324,7 @@ elseif (firstNumber == 20)then
     questionText.text = " Which animals collect pollen? " 
 
     --creating answer text from list it corispondes with the animals list
-    answerText1.text = " Polenators "
+    answerText1.text = " Pollenators "
     
     --creating wrong answers
     wrongText1.text = " The pollen boys "
@@ -673,7 +673,7 @@ elseif (firstNumber == 18)then
 
 elseif (firstNumber == 19)then
      --creating the question depending on the selcetion number
-    questionText.text = " What happens when a volcanoe errupts? " 
+    questionText.text = " What happens when a volcano erupts? " 
 
     --creating answer text from list it corispondes with the animals list
     answerText1.text = " Lava flows out of it "

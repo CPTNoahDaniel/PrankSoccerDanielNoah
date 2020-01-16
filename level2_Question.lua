@@ -131,7 +131,7 @@ elseif (firstNumber == 4)then
     questionText.text = " What do humans need? " 
 
     --creating answer text from list it corispondes with the animals list
-    answerText1.text = " Oxygene (air) "
+    answerText1.text = " Oxygen (air) "
     
     --creating wrong answers
     wrongText1.text = " Cars "
@@ -187,7 +187,7 @@ elseif (firstNumber == 8)then
     wrongText3.text = " Animals "
 elseif (firstNumber == 9)then
      --creating the question depending on the selcetion number
-    questionText.text = " Which part of a plant makes pollen? " 
+    questionText.text = " Which part of a plant has pollen? " 
 
     --creating answer text from list it corispondes with the animals list
     answerText1.text = " The flowers "
@@ -473,10 +473,10 @@ elseif (firstNumber == 2)then
     questionText.text = " What is this? " 
 
     --creating answer text from list it corispondes with the animals list
-    answerText1.text = " Stem "
+    answerText1.text = " Root "
     
     --creating wrong answers
-    wrongText1.text = " Root "
+    wrongText1.text = " Stem "
     wrongText2.text = " Leaf "
     wrongText3.text = " Seed "
 elseif (firstNumber == 3)then
@@ -496,7 +496,7 @@ elseif (firstNumber == 4)then
     questionText.text = " What do humans need? " 
 
     --creating answer text from list it corispondes with the animals list
-    answerText1.text = " Oxygene (air) "
+    answerText1.text = " Oxygen (air) "
     
     --creating wrong answers
     wrongText1.text = " Cars "
@@ -556,7 +556,7 @@ elseif (firstNumber == 8)then
 
 elseif (firstNumber == 9)then
      --creating the question depending on the selcetion number
-    questionText.text = " Which part of a plant makes pollen? " 
+    questionText.text = " Which part of a plant has pollen? " 
 
     --creating answer text from list it corispondes with the animals list
     answerText1.text = " The flowers "
@@ -915,7 +915,7 @@ function scene:create( event )
     sceneGroup:insert(questionmarkText)
 
 
-    question2Image = display.newImageRect("Images/WhatIsRoot.png", 200, 500)
+    question2Image = display.newImageRect("Images/WhatIsStem.png", 200, 500)
     question2Image.x = display.contentWidth/2 - 380
     question2Image.y = display.contentHeight/2 + 50
     question2Image.strokeWidth = 9

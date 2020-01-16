@@ -106,7 +106,7 @@ local badSoundChannel
 -----------------------------------------------------------------------------------------
 local function WinTransition()
 
-    composer.gotoScene( "you_win", {effect = "crossFade", time = 1000})
+    composer.gotoScene( "you_win", {effect = "slideDown", time = 1000})
   
 end
 
@@ -279,7 +279,7 @@ timer.performWithDelay(2000, WinTransition)
     rightButton.isVisible = false
     leftButton.isVisible = false
      
-  composer.gotoScene( "you_lose", {effect = "crossFade", time = 1000})
+  composer.gotoScene( "you_lose", {effect = "slideLeft", time = 1000})
      
   elseif (goal_ == 2)then
     goal_text.text = "2"
@@ -293,7 +293,7 @@ timer.performWithDelay(2000, WinTransition)
     rightButton.isVisible = false
     leftButton.isVisible = false
  
-     composer.gotoScene( "you_lose", {effect = "crossFade", time = 1000})
+     composer.gotoScene( "you_lose", {effect = "slideLeft", time = 1000})
       
   end
 end
