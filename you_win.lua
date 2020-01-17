@@ -35,6 +35,9 @@ local background
 local backButton
 local sceneCover
 local sceneCover2
+local winText
+local backgroundMan1
+local backgroundMan2
 
 
 -----------------------------------------------------------------------------------------
@@ -75,6 +78,13 @@ local function CoverMove2( )
 end
 -- spins the tittle
 
+local function MoveWin( event )
+    if( winText.x > display.contentWidth + 200)then
+        winText.x = -400
+    else
+    winText.x = winText.x + 6
+end
+end
 ----------------------------------------------------------------------------------------
 -- GLOBAL SCENE FUNCTIONS
 -----------------------------------------------------------------------------------------
@@ -101,8 +111,10 @@ function scene:create( event )
     sceneGroup:insert( sceneCover )
     sceneGroup:insert( sceneCover2 )
 
+winText = display.newText("You Win!", -400 , display.contentHeight/12  , nil, 125 )
+ winText:setFillColor(255/255, 255/255, 0/255)
 
-
+    sceneGroup:insert( winText ) 
     -----------------------------------------------------------------------------------------
     -- BUTTON WIDGETS
     -----------------------------------------------------------------------------------------   
@@ -165,6 +177,8 @@ function scene:show( event )
     -- Example: start timers, begin animation, play audio, etc.
     elseif ( phase == "did" ) then 
        
+Runtime:addEventListener("enterFrame", MoveWin)
+
         if (soundOn == true) then
 
             loseSoundChannel = audio.play(loseSound)

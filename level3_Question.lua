@@ -41,6 +41,7 @@ local wrongText2
 local wrongText3
 local numCorrect = 0
 local numIncorrect = 0
+local realAnswerText
 
 
 local answerPosition = 1
@@ -68,7 +69,8 @@ local questionmarkText
 
 local selectSound = audio.loadStream("Sounds/cheer.mp3")
 local selecSoundChannel
-
+local wrongSound = audio.loadStream("Sounds/losepoint2.mp3")
+local wrongSoundChannel
 
 
 
@@ -76,6 +78,15 @@ local selecSoundChannel
 -----------------------------------------------------------------------------------------
 --LOCAL FUNCTIONS
 -----------------------------------------------------------------------------------------
+
+local function DisplayCorrectAnswer( )
+       if( soundOn == true)then
+        wrongSoundChannel = audio.play(wrongSound)
+    end
+    realAnswerText.isVisible = true
+    realAnswerText.text = "The real answer is" .. answerText1.text
+end
+
 local function DisplayQuestion2()
     --creating random numbers
     firstNumber = math.random (1,12)
@@ -210,7 +221,7 @@ elseif (firstNumber == 11)then
     questionText.text = " What do bees help plants do? " 
 
     --creating answer text from list it corispondes with the animals list
-    answerText1.text = " Spread seeds "
+    answerText1.text = " Pollinate "
     
     --creating wrong answers
     wrongText1.text = " Get food "
@@ -295,7 +306,7 @@ end
 
 local function Calculate2( )
     if (numCorrect == 2)then
-        
+         realAnswerText.isVisible = false
         composer.hideOverlay( "level3_Question", { isModal = true, effect = "fade", time = 500})      
         ResumeGameLevel3()
         
@@ -303,14 +314,14 @@ local function Calculate2( )
         numIncorrect = 0
 
     elseif (numIncorrect == 2)then
-       
+        realAnswerText.isVisible = false
         composer.hideOverlay( "level3_Question", { isModal = true, effect = "fade", time = 500})
         ResumeGame2Level3()
 
         numCorrect = 0
         numIncorrect = 0
     else   
-        
+         realAnswerText.isVisible = false
  DisplayQuestion2()
         PositionAnswers2()
        
@@ -525,7 +536,7 @@ elseif (firstNumber == 15)then
     questionText.text = " What do bees help plants do? " 
 
     --creating answer text from list it corispondes with the animals list
-    answerText1.text = " Spread seeds "
+    answerText1.text = " Pollinate "
     
     --creating wrong answers
     wrongText1.text = " Get food "
@@ -677,13 +688,13 @@ end
 
 local function Calculate( )
     if (numCorrect == 2)then
-        
+         realAnswerText.isVisible = false
         composer.hideOverlay( "level2_Question", { isModal = true, effect = "fade", time = 500})      
         ResumeGameLevel3()
         --questionImage.isVisible = false
         numCorrect = 0
         numIncorrect = 0
-
+ realAnswerText.isVisible = false
     elseif (numIncorrect == 2)then
        
         composer.hideOverlay( "level2_Question", { isModal = true, effect = "fade", time = 500})
@@ -692,7 +703,7 @@ local function Calculate( )
         numCorrect = 0
         numIncorrect = 0
     else   
-        
+         realAnswerText.isVisible = false
  DisplayQuestion()
         PositionAnswers()
         if( trueOrFalsePosition == 1)or
@@ -716,7 +727,8 @@ local function TouchListenerWrongAnswer(touch)
     if (touch.phase == "ended") then
     
         numIncorrect = numIncorrect + 1
-        Calculate()
+        DisplayCorrectAnswer()
+        timer.performWithDelay(2000, Calculate)
         
         
     end 
@@ -731,7 +743,8 @@ local function TouchListenerWrongAnswer2(touch)
     if (touch.phase == "ended") then
 
         numIncorrect = numIncorrect + 1
-        Calculate()
+         DisplayCorrectAnswer()
+        timer.performWithDelay(2000, Calculate)
         
     end 
 end
@@ -745,7 +758,8 @@ local function TouchListenerWrongAnswer3(touch)
     
     if (touch.phase == "ended") then
         numIncorrect = numIncorrect + 1
-        Calculate()
+         DisplayCorrectAnswer()
+        timer.performWithDelay(2000, Calculate)
         
     end 
 end
@@ -862,6 +876,10 @@ function scene:create( event )
     wrongText3.anchorX = 0
     wrongText3:setFillColor(0/255, 0/255, 0/255)
 
+        realAnswerText = display.newText("", display.contentWidth/2, 250, Arial, 25)
+    --wrongText3.anchorX = 0
+    realAnswerText:setFillColor(0/255, 0/255, 0/255)
+
 
     -----------------------------------------------------------------------------------------
 
@@ -872,6 +890,7 @@ function scene:create( event )
     sceneGroup:insert(wrongText1)
     sceneGroup:insert(wrongText2)
     sceneGroup:insert(wrongText3)
+    sceneGroup:insert(realAnswerText)
   
 
 

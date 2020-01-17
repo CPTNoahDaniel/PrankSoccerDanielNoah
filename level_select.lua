@@ -33,6 +33,10 @@ local scene = composer.newScene( sceneName )
 -----------------------------------------------------------------------------------------
 local background
 local backButton
+local level1Button
+local level2Button
+local level3Button
+local level4Button
 
 
 -----------------------------------------------------------------------------------------
@@ -41,8 +45,8 @@ local backButton
 
 local transitionSound = audio.loadStream("Sounds/jump.mp3")
 local transitionSoundChannel
-local music = audio.loadStream("Sounds/creditsMusic.mp3")
-local musicChannel
+local music67 = audio.loadStream("Sounds/SelectMusic.mp3")
+local channel5-- = audio.play(music67, { channel = 5, loop = -1})
 
 -----------------------------------------------------------------------------------------
 -- LOCAL FUNCTIONS
@@ -262,9 +266,11 @@ function scene:show( event )
 
     -- Called when the scene is still off screen (but is about to come on screen).   
     if ( phase == "will" ) then
+       
        if (soundOn == true) then
-            audio.play(musicChannel)
-
+        channel5 = audio.play(music67, { loop = -1})
+        else
+            audio.pause(channel5)
        
                        
         end
@@ -306,8 +312,8 @@ function scene:hide( event )
     elseif ( phase == "did" ) then
         -- Called immediately after scene goes off screen.
     
-        audio.pause(musicChannel)
-    end
+        audio.stop(channel5)
+           end
 
 end -- function scene:hide( event )
 

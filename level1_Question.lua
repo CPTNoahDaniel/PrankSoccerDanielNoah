@@ -41,6 +41,7 @@ local wrongText2
 local wrongText3
 local numCorrect = 0
 local numIncorrect = 0
+local realAnswerText
 
 
 local answerPosition = 1
@@ -68,6 +69,9 @@ local questionmarkText
 
 local selectSound = audio.loadStream("Sounds/cheer.mp3")
 local selecSoundChannel
+local wrongSound = audio.loadStream("Sounds/losepoint2.mp3")
+local wrongSoundChannel
+
 
 
 
@@ -76,10 +80,20 @@ local selecSoundChannel
 -----------------------------------------------------------------------------------------
 --LOCAL FUNCTIONS
 -----------------------------------------------------------------------------------------
+local function DisplayCorrectAnswer( )
+    if( soundOn == true)then
+        wrongSoundChannel = audio.play(wrongSound)
+    end
+    realAnswerText.isVisible = true
+    realAnswerText.text = "The real answer is" .. answerText1.text
+end
+
 local function DisplayQuestion2()
     --creating random numbers
     firstNumber = math.random (1,20)
  question2Image.isVisible = false  
+answerBox2.isVisible = true
+answerBox4.isVisible = true
 answerBox.isVisible = true
 answerBox3.isVisible = true
 if (firstNumber == 1) then
@@ -277,7 +291,7 @@ elseif (firstNumber == 16)then
 
 elseif (firstNumber == 17)then
      --creating the question depending on the selcetion number
-    questionText.text = " What happens when a volcanoe errupts? " 
+    questionText.text = " What happens when a volcano erupts? " 
 
     --creating answer text from list it corispondes with the animals list
     answerText1.text = " Lava flows out of it "
@@ -301,7 +315,7 @@ elseif (firstNumber == 18)then
 
 elseif (firstNumber == 19)then
      --creating the question depending on the selcetion number
-    questionText.text = " What happens when a volcanoe errupts? " 
+    questionText.text = " What happens when a volcano erupts? " 
 
     --creating answer text from list it corispondes with the animals list
     answerText1.text = " Lava flows out of it "
@@ -316,7 +330,7 @@ elseif (firstNumber == 20)then
     questionText.text = " Which animals collect pollen? " 
 
     --creating answer text from list it corispondes with the animals list
-    answerText1.text = " Polenators "
+    answerText1.text = " Pollenators "
     
     --creating wrong answers
     wrongText1.text = " The pollen boys "
@@ -327,7 +341,7 @@ end
 
 end
 
-local function PositionAnswers2()
+local function PositionAnswers3()
 
     --creating random start position in a cretain area
     answerPosition = math.random(1,3)
@@ -384,7 +398,7 @@ end
 
 local function Calculate2( )
     if (numCorrect == 2)then
-        
+         realAnswerText.isVisible = false
         composer.hideOverlay( "level2_Question", { isModal = true, effect = "fade", time = 500})      
         ResumeGameLevel1()
         
@@ -392,20 +406,20 @@ local function Calculate2( )
         numIncorrect = 0
 
     elseif (numIncorrect == 2)then
-       
+        realAnswerText.isVisible = false
         composer.hideOverlay( "level2_Question", { isModal = true, effect = "fade", time = 500})
         ResumeGame2Level1()
 
         numCorrect = 0
         numIncorrect = 0
-    else   
-        
+    else  
+         realAnswerText.isVisible = false
  DisplayQuestion2()
-        PositionAnswers2()
+        PositionAnswers3()
        
 
         
-    end
+    end 
 end
 
 local function Question2( )
@@ -426,8 +440,8 @@ local function TouchListenerAnswer(touch)
     if (touch.phase == "ended") then
        
         numCorrect = numCorrect + 1
-
-        Calculate2()
+        -- DisplayCorrectAnswer()
+       Calculate2()
     
     end 
 end
@@ -435,7 +449,8 @@ end
 local function DisplayQuestion()
     --creating random numbers
     firstNumber = math.random (1,20)
-   
+   answerBox.isVisible = true
+answerBox3.isVisible = true
 
 if (firstNumber == 1) then
 
@@ -664,7 +679,7 @@ elseif (firstNumber == 18)then
 
 elseif (firstNumber == 19)then
      --creating the question depending on the selcetion number
-    questionText.text = " What happens when a volcanoe errupts? " 
+    questionText.text = " What happens when a volcano erupts? " 
 
     --creating answer text from list it corispondes with the animals list
     answerText1.text = " Lava flows out of it "
@@ -767,7 +782,7 @@ end
 
 local function Calculate( )
     if (numCorrect == 2)then
-        
+         realAnswerText.isVisible = false
         composer.hideOverlay( "level2_Question", { isModal = true, effect = "fade", time = 500})      
         ResumeGameLevel1()
         --questionImage.isVisible = false
@@ -775,19 +790,19 @@ local function Calculate( )
         numIncorrect = 0
 
     elseif (numIncorrect == 2)then
-       
+        realAnswerText.isVisible = false
         composer.hideOverlay( "level2_Question", { isModal = true, effect = "fade", time = 500})
         ResumeGame2Level1()
 
         numCorrect = 0
         numIncorrect = 0
     else   
-        
- DisplayQuestion()
-        PositionAnswers()
+        realAnswerText.isVisible = false
+ DisplayQuestion2()
+        PositionAnswers3()
         if( trueOrFalsePosition == 1)or
             ( trueOrFalsePosition == 2)then
-                PositionAnswers2()
+                PositionAnswers()
             end
 
         
@@ -801,12 +816,13 @@ end
 local function TouchListenerWrongAnswer(touch)
     userAnswer = wrongText1.text
     if(soundOn == true) then
-    selecSoundChannel = audio.play(selectSound)
+   -- selecSoundChannel = audio.play(selectSound)
     end
     if (touch.phase == "ended") then
     
         numIncorrect = numIncorrect + 1
-        Calculate()
+        DisplayCorrectAnswer()
+        timer.performWithDelay(2000, Calculate)
         
         
     end 
@@ -816,12 +832,13 @@ end
 local function TouchListenerWrongAnswer2(touch)
     userAnswer = wrongText2.text
     if(soundOn == true) then
-    selecSoundChannel = audio.play(selectSound)
+    --selecSoundChannel = audio.play(selectSound)
     end
     if (touch.phase == "ended") then
 
         numIncorrect = numIncorrect + 1
-        Calculate()
+        DisplayCorrectAnswer()
+        timer.performWithDelay(2000, Calculate)
         
     end 
 end
@@ -830,12 +847,13 @@ end
 local function TouchListenerWrongAnswer3(touch)
     userAnswer = wrongText3.text
      if(soundOn == true) then
-    selecSoundChannel = audio.play(selectSound)
+    --selecSoundChannel = audio.play(selectSound)
     end
     
     if (touch.phase == "ended") then
         numIncorrect = numIncorrect + 1
-        Calculate()
+        DisplayCorrectAnswer()
+         timer.performWithDelay(2000, Calculate)
         
     end 
 end
@@ -952,6 +970,11 @@ function scene:create( event )
     wrongText3.anchorX = 0
     wrongText3:setFillColor(0/255, 0/255, 0/255)
 
+    realAnswerText = display.newText("", display.contentWidth/2, 250, Arial, 25)
+    --wrongText3.anchorX = 0
+    realAnswerText:setFillColor(0/255, 0/255, 0/255)
+
+
 
     -----------------------------------------------------------------------------------------
 
@@ -962,6 +985,7 @@ function scene:create( event )
     sceneGroup:insert(wrongText1)
     sceneGroup:insert(wrongText2)
     sceneGroup:insert(wrongText3)
+    sceneGroup:insert(realAnswerText)
   
 
 

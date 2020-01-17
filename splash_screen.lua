@@ -26,6 +26,10 @@ local scene = composer.newScene( sceneName )
 -----------------------------------------------------------------------------------------
 -- LOCAL VARIABLES
 -----------------------------------------------------------------------------------------
+coins = 0
+power = 0
+ss = false
+
 
 -- local variables for the scene
 local bkg

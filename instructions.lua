@@ -41,10 +41,10 @@ local unMuteButton
 -- LOCAL SOUNDS
 -----------------------------------------------------------------------------------------
 
-local transitionSound = audio.loadStream("Sounds/jump.mp3")
+local transitionSound = audio.loadSound("Sounds/jump.mp3")
 local transitionSoundChannel
-local music = audio.loadStream("Sounds/instructionsMusic.mp3")
-local musicChannel = audio.play(music, {channel=3, loop = -1})
+local music3 = audio.loadStream("Sounds/instructionsMusic.mp3")
+local musicChannel3
 
 -----------------------------------------------------------------------------------------
 -- LOCAL FUNCTIONS
@@ -53,7 +53,7 @@ local musicChannel = audio.play(music, {channel=3, loop = -1})
 -- Creating Mute function to pause audio
 local function Mute( touch )
     if (touch.phase == "ended") then
-        audio.pause(musicChannel)
+        audio.pause(musicChannel3)
         soundOn = false
         muteButton.isVisible = false
         unMuteButton.isVisible = true
@@ -64,7 +64,7 @@ end
 -- Creating Mute function to pause audio
 local function UnMute( touch )
     if (touch.phase == "ended") then
-        audio.resume(musicChannel)
+        audio.resume(musicChannel3)
         soundOn = true
         muteButton.isVisible = true
         unMuteButton.isVisible = false
@@ -175,11 +175,11 @@ function scene:show( event )
     elseif ( phase == "did" ) then 
         
         if (soundOn == true) then
-            audio.resume(musicChannel)
+            audio.resume(musicChannel3)
             unMuteButton.isVisible = false
             muteButton.isVisible = true
         else
-            audio.pause(musicChannel)
+          
             muteButton.isVisible = false
             unMuteButton.isVisible = true            
         end
@@ -208,14 +208,15 @@ function scene:hide( event )
         -- Called when the scene is on screen (but is about to go off screen).
         -- Insert code here to "pause" the scene.
         -- Example: stop timers, stop animation, stop audio, etc.
-
+audio.pause(musicChannel3)
+      muteButton:removeEventListener("touch", Mute)
+        unMuteButton:removeEventListener("touch", UnMute)
     -----------------------------------------------------------------------------------------
 
     elseif ( phase == "did" ) then
         -- Called immediately after scene goes off screen.
-        muteButton:removeEventListener("touch", Mute)
-        unMuteButton:removeEventListener("touch", UnMute)
-        audio.pause(musicChannel)
+  
+        
     end
 
 end -- function scene:hide( event )

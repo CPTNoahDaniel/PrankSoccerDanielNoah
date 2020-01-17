@@ -84,7 +84,7 @@ local theBad
 
 
 local musicChannel
-local music = audio.loadStream("Sounds/level1Music.mp3")
+local music = audio.loadStream("Sounds/SpaceSong.mp3")
 local channel2
 local transitionSound = audio.loadStream("Sounds/jump.mp3")
 local goalSound = audio.loadStream("Sounds/win.mp3")
@@ -98,16 +98,23 @@ local jumpSoundChannel
 local leftNet
 local jumpSound2 = audio.loadStream("Sounds/jump3.mp3")
 local jumpSound2Channel
-local badSound
+local badSound = audio.loadSound("Sounds/bad.mp3")
 local badSoundChannel
+local coinSound = audio.loadSound("Sounds/Coin.mp3")
+local coinSoundChannel
 
 -----------------------------------------------------------------------------------------
 -- LOCAL FUNCTIONS
 -----------------------------------------------------------------------------------------
 local function WinTransition()
 
-    composer.gotoScene( "you_win", {effect = "crossFade", time = 1000})
+    composer.gotoScene( "you_win", {effect = "slideDown", time = 1000})
   
+end
+
+
+local function CoinNumber( ... )
+    coinText2.text = coins
 end
 
 local function AddPhysicsBodies()
@@ -189,30 +196,122 @@ local function Reset( )
 end
 
 
+-- resets the level
+local function Reset2( )
+  youMiss.isVisible = false
+  youHit.isVisible = false
+  platform1.isVisible = true
+  platform2.isVisible = true
+  platform3.isVisible = true
+  goalie.isVisible = true
+  bad1.isVisible = true
+
+  bad2.isVisible = true
+
+  bad3.isVisible = true
+   bad3.x = display.contentCenterX 
+  bad3.y = display.contentCenterY - 275
+    bad2.x = display.contentCenterX + 300
+  bad2.y = display.contentCenterY - 75
+     bad1.x = display.contentCenterX - 300
+  bad1.y = display.contentCenterY - 275
+  leftNet.isVisible = true
+  rightNet.isVisible = true
+  rightButton.isVisible = true
+  leftButton.isVisible = true
+  upButton.isVisible = true
+
+  character.x = display.contentCenterX
+  character.y = display.contentCenterY + 70
+  character.rotation = 0
+  ball1.x = display.contentCenterX
+  ball1.y = 100
+  ball1.isVisible = false
+  netBlock.isVisible = false
+  goal1 = 0
+  goal_ = 0
+  goal_text.text = "0"
+  goalText.text = "0"
+  --theBad.x = theBad.x + 2000
+  physics.removeBody(ball1)
+ -- if (physics2 == true)then
+   -- physics.removeBody(topBorder2)
+   -- physics.removeBody(ball1)
+ -- end
+  --physics2 = false
+  if ( soundOn == true) then
+  goalSoundChannel = audio.play(goalSound)
+  end
+
+  
+
+end
+
+local function DisCharacter( ... )
+   character.x = 4000
+  -- body
+end
 
 
 
 --changes score for opposite team
 local function ChangeScore2( )
  
-  if (goal_ == 2)then
+ if (goal1 == 2)and
+         (goal_ == 1)then
+          goal_text.text = "1"
+          upButton.isVisible = false
+    rightButton.isVisible = false
+    leftButton.isVisible = false
+           character.x = character.x + 4000
+           coin = coin + 1
+         if ( soundOn == true) then
+      coinSoundChannel = audio.play(coinSound)
+    end
+           CoinNumber()
+timer.performWithDelay(2000, WinTransition)
+  elseif (goal_ == 1)then
     goal_text.text = "1"
     upButton.isVisible = false
     rightButton.isVisible = false
     leftButton.isVisible = false
-    
+         if ( soundOn == true)then
+    badSoundChannel = audio.play(badSound)
+  end
 
-  elseif (goal_ == 6)then
+    
+  elseif (goal_ == 2)and
+         (goal1 == 1)then
+          goal_text.text = "2"
+          upButton.isVisible = false
+    rightButton.isVisible = false
+    leftButton.isVisible = false
+        if ( soundOn == true)then
+    badSoundChannel = audio.play(badSound)
+  end
+     
+  composer.gotoScene( "you_lose", {effect = "slideLeft", time = 1000})
+     
+  elseif (goal_ == 2)then
     goal_text.text = "2"
      upButton.isVisible = false
     rightButton.isVisible = false
     leftButton.isVisible = false
-  elseif (goal_ == 8)then
+        if ( soundOn == true)then
+    badSoundChannel = audio.play(badSound)
+  end
+   
+  elseif (goal_ == 3)then
     goal_text.text = "3"
      upButton.isVisible = false
     rightButton.isVisible = false
     leftButton.isVisible = false
-     composer.gotoScene( "you_lose", {effect = "crossFade", time = 1000})
+          if ( soundOn == true)then
+    badSoundChannel = audio.play(badSound)
+  end
+ 
+     composer.gotoScene( "you_lose", {effect = "slideLeft", time = 1000})
+      
   end
 end
 
@@ -225,19 +324,47 @@ local function ChangeScore( )
     upButton.isVisible = false
     rightButton.isVisible = false
     leftButton.isVisible = false
+    coins = coins + 1
+      if ( soundOn == true) then
+      coinSoundChannel = audio.play(coinSound)
+    end
+    CoinNumber()
    
+  elseif (goal1 == 2)and
+         (goal_ == 1)then
+            goalText.text = "2"
+      upButton.isVisible = false
+    rightButton.isVisible = false
+    leftButton.isVisible = false
+     coins = coins + 1
+       if ( soundOn == true) then
+      coinSoundChannel = audio.play(coinSound)
+    end
+     CoinNumber()
 
+  timer.performWithDelay(2000, WinTransition)
+   
   elseif (goal1 == 2)then
     goalText.text = "2"
+     coins = coins + 1
+      if ( soundOn == true) then
+      coinSoundChannel = audio.play(coinSound)
+    end
+     CoinNumber()
   
   elseif (goal1 == 3)then
     goalText.text = "3"
-    timer.performWithDelay(2000, WinTransition)
+     coins = coins + 1
+      if ( soundOn == true) then
+      coinSoundChannel = audio.play(coinSound)
+    end
+     CoinNumber()
+   timer.performWithDelay(2000, WinTransition)
+      
     
 
   end
 end
-
 
 --Collision for questions
 local function onCollision( self, event )
@@ -277,10 +404,15 @@ local function onCollision( self, event )
         end
 end
 
+
+
+
+
+
 -- collision for the ball and net
 local function ballCollision( self, event )
     
-    goal_ = goal_ + 1
+   
 
     
 
@@ -334,6 +466,7 @@ end
 
 -- shoots goal when answer is wrong
 local function Shoot1( )
+   goal_ = goal_ + 1
   titleShoot.isVisible = false
   physics.addBody(topBorder2, "static",  {density=0, friction=0, bounce=0} )
   physics2 = true
@@ -459,7 +592,7 @@ if (numUp == 5) then
   timer.performWithDelay(500, Stop)
 
 else
-character:setLinearVelocity( 0, -verticalSpeed )
+character:setLinearVelocity( 0, -50 )
 numUp = numUp + 1
 end
 
@@ -473,9 +606,9 @@ local function MoveCharacterRight()
      jumpSoundChannel2 = audio.play(jumpSound2)
     end
 
-character:rotate (10)
+character:rotate (5)
 
-character:setLinearVelocity( 120, 10 )
+character:setLinearVelocity( 30, 10 )
 end
 
 --moves character left
@@ -484,9 +617,9 @@ local function MoveCharacterLeft()
   if(soundOn == true)then
      jumpSoundChannel2 = audio.play(jumpSound2)
     end
-character:rotate (-10)
+character:rotate (-5)
 
-character:setLinearVelocity( -120, 10 )
+character:setLinearVelocity( -30, 10 )
 end
 
 
@@ -500,7 +633,95 @@ local function MainMenuTransition( )
      channel2 = audio.play(transitionSound)
     end
     
-end    
+end   
+
+
+local function CharacterSelect( )
+  if ( characterf == 1)then
+    character = display.newImageRect("Images/character.png",75, 125)
+   character.x = display.contentCenterX
+   character.y = display.contentCenterY + 150
+  character.myName = "character"
+
+   character.isFixedRotation = true
+
+    characterJumping = display.newImageRect("Images/characterRolling.png",75, 125)
+    characterJumping.x = character.x
+    characterJumping.y = character.y
+    characterJumping.isVisible = false
+
+     characterRolling = display.newImageRect("Images/characterJumping.png",75, 125)
+    characterRolling.x = character.x
+    characterRolling.y = character.y
+    characterRolling.isVisible = false
+
+   
+
+  elseif ( characterf == 2)then
+     character = display.newImageRect("Images/DinoCharacter.png",75, 125)
+   character.x = display.contentCenterX
+   character.y = display.contentCenterY + 150
+  character.myName = "character"
+
+   character.isFixedRotation = true
+
+   
+
+    characterJumping = display.newImageRect("Images/DinoCharacterJumping.png",75, 125)
+    characterJumping.x = character.x
+    characterJumping.y = character.y
+    characterJumping.isVisible = false
+
+     characterRolling = display.newImageRect("Images/DinoCharacterRolling.png",75, 125)
+    characterRolling.x = character.x
+    characterRolling.y = character.y
+    characterRolling.isVisible = false
+
+ elseif ( characterf == 3)then
+     character = display.newImageRect("Images/SharkCharacterNoah.png",75, 125)
+   character.x = display.contentCenterX
+   character.y = display.contentCenterY + 150
+  character.myName = "character"
+
+   character.isFixedRotation = true
+
+   
+
+    characterJumping = display.newImageRect("Images/SharkCharacterJumpingNoah.png",75, 125)
+    characterJumping.x = character.x
+    characterJumping.y = character.y
+    characterJumping.isVisible = false
+
+     characterRolling = display.newImageRect("Images/SharkCharacterRollingNoah.png",75, 125)
+    characterRolling.x = character.x
+    characterRolling.y = character.y
+    characterRolling.isVisible = false
+
+    elseif ( characterf == 4) then
+     character = display.newImageRect("Images/PurpleCharacterNoah.png",75, 125)
+   character.x = display.contentCenterX
+   character.y = display.contentCenterY + 150
+  character.myName = "character"
+
+   character.isFixedRotation = true
+
+   
+
+    characterJumping = display.newImageRect("Images/PurpleCharacterJumpingNoah.png",75, 125)
+    characterJumping.x = character.x
+    characterJumping.y = character.y
+    characterJumping.isVisible = false
+
+     characterRolling = display.newImageRect("Images/PurpleCharacterRollingNoah.png",75, 125)
+    characterRolling.x = character.x
+    characterRolling.y = character.y
+    characterRolling.isVisible = false
+
+
+
+    
+  end
+end 
 ----------------------------------------------------------------------------------------
 -- GLOBAL SCENE FUNCTIONS
 -----------------------------------------------------------------------------------------
@@ -636,43 +857,25 @@ function scene:create( event )
 
     sceneGroup:insert( leftBorder )
 
-   character = display.newImageRect("Images/character.png",75, 125)
-   character.x = display.contentCenterX
-   character.y = display.contentCenterY
-  character.myName = "character"
 
-   character.isFixedRotation = true
 
-    sceneGroup:insert( character )
+    
 
-    characterJumping = display.newImageRect("Images/characterRolling.png",75, 125)
-    characterJumping.x = character.x
-    characterJumping.y = character.y
-    characterJumping.isVisible = false
-
-     characterRolling = display.newImageRect("Images/characterJumping.png",75, 125)
-    characterRolling.x = character.x
-    characterRolling.y = character.y
-    characterRolling.isVisible = false
-
-     sceneGroup:insert( characterRolling )
-    sceneGroup:insert( characterJumping )
-
-  platform1 = display.newImageRect("Images/platform.png",200, 25)
+  platform1 = display.newImageRect("Images/platformLevel4.png",200, 25)
    platform1.x = display.contentCenterX
    platform1.y = display.contentCenterY - 200
 
     
     sceneGroup:insert( platform1 )
 
-  platform2 = display.newImageRect("Images/platform.png",200, 25)
+  platform2 = display.newImageRect("Images/platformLevel4.png",200, 25)
    platform2.x = display.contentCenterX + 300
    platform2.y = display.contentCenterY 
 
     
     sceneGroup:insert( platform2 )
 
-  platform3 = display.newImageRect("Images/platform.png",200, 25)
+  platform3 = display.newImageRect("Images/platformLevel4.png",200, 25)
    platform3.x = display.contentCenterX - 300
    platform3.y = display.contentCenterY -200
 
@@ -750,6 +953,27 @@ netBorder4:rotate (-62)
     sceneGroup:insert( leftNet )
     sceneGroup:insert( rightNet )
 
+
+
+    coinBox = display.newRect(display.contentWidth - 940,700,140,66.666)
+    coinBox:setFillColor(0/255, 0/255, 0/255)
+    coinBox.strokeWidth = 10
+    coinBox:setStrokeColor(255/255, 255/255, 255/255)
+      
+sceneGroup:insert( coinBox )
+
+      coin = display.newImageRect("Images/CoinNoah@2x.png", 50, 50)
+    coin.x = 50
+    coin.y = 700
+    
+    sceneGroup:insert( coin )
+
+   
+    coinText2 = display.newText("0", 100, 700, nil, 60)
+
+    
+    sceneGroup:insert( coinText2 )
+
     -----------------------------------------------------------------------------------------
     -- BUTTON WIDGETS
     -----------------------------------------------------------------------------------------   
@@ -769,7 +993,7 @@ netBorder4:rotate (-62)
             -- When the button is released, call the Level1 screen transition function
             onRelease = MainMenuTransition          
         } )
-        backButton.width = 150
+         backButton.width = 150
         backButton.height = 75
 
         sceneGroup:insert( backButton )
@@ -857,8 +1081,12 @@ function scene:show( event )
  physics.start()
     -- Called when the scene is still off screen (but is about to come on screen).   
     if ( phase == "will" ) then
-                -- start physics
-       
+                CoinNumber()  -- start physics
+        CharacterSelect()
+        Reset2()
+          sceneGroup:insert( character )
+  sceneGroup:insert( characterRolling )
+  sceneGroup:insert( characterJumping )
         --Rotate()
         -- set gravity
         --Reset()
@@ -878,7 +1106,7 @@ function scene:show( event )
            AddPhysicsBodies()
           AddCollisionListeners()
            if (soundOn == true) then
-            audio.resume(musicChannel)
+            audio.resume(musicChannel, {loop = -1} )
           
         else
           
@@ -915,6 +1143,7 @@ function scene:hide( event )
     elseif ( phase == "did" ) then
         -- Called immediately after scene goes off screen.
              RemoveCollisionListeners()
+             DisCharacter()
              --RemovePhysicsBodies()
         audio.pause(channel2)
 

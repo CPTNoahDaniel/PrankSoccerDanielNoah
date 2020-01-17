@@ -35,6 +35,8 @@ local background
 local backButton
 local sceneCover
 local sceneCover2
+local ball
+local loseText
 
 
 -----------------------------------------------------------------------------------------
@@ -70,8 +72,36 @@ local function CoverMove( event )
     timer.performWithDelay(1000, ButtonFade)
 end
 
+
+   
+
+
 local function CoverMove2( )
+
      Runtime:addEventListener("enterFrame", CoverMove)
+  
+end
+
+
+local function MoveBall( event )
+    if ( ball.y < 300)then
+        ball.y = ball.y
+        ball.x = ball.x
+         loseText.x = loseText.x + 3
+    else
+    ball.x = ball.x - 2.5
+    ball.y = ball.y - 3
+     loseText.x = loseText.x + 3
+end
+
+if(loseText.x > display.contentWidth + 200)then
+    loseText.x = -1000
+end
+
+end
+
+local function Move14(  )
+     Runtime:addEventListener("enterFrame", MoveBall)
 end
 -- spins the tittle
 
@@ -89,7 +119,7 @@ function scene:create( event )
     -- BACKGROUND IMAGE & STATIC OBJECTS
     -----------------------------------------------------------------------------------------
   -- creating the background
-   background = display.newImageRect("Images/fdf.png", display.contentWidth, display.contentHeight)
+   background = display.newImageRect("Images/YouWinScreenNoah@2x.png", display.contentWidth, display.contentHeight)
    background.x = display.contentCenterX
    background.y = display.contentCenterY
 
@@ -102,7 +132,16 @@ function scene:create( event )
     sceneGroup:insert( sceneCover2 )
 
 
+ loseText = display.newText("You Lose!", -400 , display.contentHeight/12  , nil, 125 )
+ loseText:setFillColor(255/255, 255/255, 0/255)
 
+ball = display.newImage("Images/BallNoah@2x.png",  display.contentWidth + 50, 800)
+ball.width = 100
+ball.height = 100
+
+
+    sceneGroup:insert( ball )
+    sceneGroup:insert( loseText )
     -----------------------------------------------------------------------------------------
     -- BUTTON WIDGETS
     -----------------------------------------------------------------------------------------   
@@ -147,7 +186,7 @@ function scene:show( event )
      ButtonFade()
  
    timer.performWithDelay(1000, CoverMove2)
-
+  timer.performWithDelay(5000, Move14)
 
     -----------------------------------------------------------------------------------------
 
@@ -164,7 +203,7 @@ function scene:show( event )
     -- Insert code here to make the scene come alive.
     -- Example: start timers, begin animation, play audio, etc.
     elseif ( phase == "did" ) then 
-       
+      
         if (soundOn == true) then
 
             loseSoundChannel = audio.play(loseSound)

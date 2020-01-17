@@ -1,6 +1,6 @@
 ----------------------------------------------------------------------------------------
 --
--- level4_question.lua
+-- level2_question.lua
 -- Created by: Noah
 -- Date: December 11th, 2019
 -- Description: This is the level 4 question 
@@ -41,6 +41,7 @@ local wrongText2
 local wrongText3
 local numCorrect = 0
 local numIncorrect = 0
+local realAnswerText
 
 
 local answerPosition = 1
@@ -68,7 +69,8 @@ local questionmarkText
 
 local selectSound = audio.loadStream("Sounds/cheer.mp3")
 local selecSoundChannel
-
+local wrongSound = audio.loadStream("Sounds/losepoint2.mp3")
+local wrongSoundChannel
 
 
 
@@ -76,6 +78,15 @@ local selecSoundChannel
 -----------------------------------------------------------------------------------------
 --LOCAL FUNCTIONS
 -----------------------------------------------------------------------------------------
+
+local function DisplayCorrectAnswer( )
+       if( soundOn == true)then
+        wrongSoundChannel = audio.play(wrongSound)
+    end
+    realAnswerText.isVisible = true
+    realAnswerText.text = "The real answer is" .. answerText1.text
+end
+
 local function DisplayQuestion2()
     --creating random numbers
     firstNumber = math.random (1,12)
@@ -86,7 +97,7 @@ answerBox3.isVisible = true
 if (firstNumber == 1) then
 
     --creating the question depending on the selcetion number
-    questionText.text = " What do you call a person who studies science? " 
+    questionText.text = " Who works with science? " 
     --creating answer text from list it corispondes with the animals list
     answerText1.text = " A scientist "
     
@@ -191,7 +202,7 @@ elseif (firstNumber == 9)then
     
     --creating wrong answers
     wrongText1.text = " Solve math questions "
-    wrongText2.text = " Make wonderful art "
+    wrongText2.text = " Make maps "
     wrongText3.text = " Nothing "
 
 elseif (firstNumber == 10)then
@@ -231,7 +242,7 @@ elseif (firstNumber == 12)then
     --creating wrong answers
     wrongText1.text = " Rocks "
     wrongText2.text = " The sky "
-    wrongText3.text = " Nowhere "
+    wrongText3.text = " Grass "
 
 
 end
@@ -297,22 +308,22 @@ end
 
 local function Calculate2( )
     if (numCorrect == 2)then
-        
-        composer.hideOverlay( "level4_Question", { isModal = true, effect = "fade", time = 500})      
+         realAnswerText.isVisible = false
+        composer.hideOverlay( "level3_Question", { isModal = true, effect = "fade", time = 500})      
         ResumeGameLevel4()
         
         numCorrect = 0
         numIncorrect = 0
 
     elseif (numIncorrect == 2)then
-       
-        composer.hideOverlay( "level4_Question", { isModal = true, effect = "fade", time = 500})
+        realAnswerText.isVisible = false
+        composer.hideOverlay( "level3_Question", { isModal = true, effect = "fade", time = 500})
         ResumeGame2Level4()
 
         numCorrect = 0
         numIncorrect = 0
     else   
-        
+         realAnswerText.isVisible = false
  DisplayQuestion2()
         PositionAnswers2()
        
@@ -353,7 +364,7 @@ local function DisplayQuestion()
 if (firstNumber == 1) then
 
     --creating the question depending on the selcetion number
-    questionText.text = " What do you call a person who studies science? " 
+    questionText.text = " Who studies science? " 
     --creating answer text from list it corispondes with the animals list
     answerText1.text = " A scientist "
     
@@ -403,6 +414,8 @@ elseif (firstNumber == 5)then
     questionText.text = " Are rocks alive? " 
 
     TrueOrFalse()
+    answerBox.isVisible = false
+    answerBox3.isVisible = false
     --creating answer text from list it corispondes with the animals list
     answerText1.text = " No "
     
@@ -416,6 +429,8 @@ elseif (firstNumber == 6)then
     questionText.text = " Is technology part of science? " 
 
     TrueOrFalse()
+       answerBox.isVisible = false
+    answerBox3.isVisible = false
     --creating answer text from list it corispondes with the animals list
     answerText1.text = " Yes "
     
@@ -441,6 +456,8 @@ elseif (firstNumber == 8)then
     questionText.text = " Do plants breathe? " 
 
     TrueOrFalse()
+       answerBox.isVisible = false
+    answerBox3.isVisible = false
     --creating answer text from list it corispondes with the animals list
     answerText1.text = " Yes "
     
@@ -514,6 +531,8 @@ elseif (firstNumber == 14)then
     questionText.text = " Is space real? " 
 
     TrueOrFalse()
+       answerBox.isVisible = false
+    answerBox3.isVisible = false
     --creating answer text from list it corispondes with the animals list
     answerText1.text = " Yes "
     
@@ -539,6 +558,8 @@ elseif (firstNumber == 16)then
     questionText.text = " Can we survive only eating plants? " 
 
     TrueOrFalse()
+       answerBox.isVisible = false
+    answerBox3.isVisible = false
     --creating answer text from list it corispondes with the animals list
     answerText1.text = " Yes "
     
@@ -552,6 +573,8 @@ elseif (firstNumber == 17)then
     questionText.text = " Is science important? " 
 
     TrueOrFalse()
+       answerBox.isVisible = false
+    answerBox3.isVisible = false
     --creating answer text from list it corispondes with the animals list
     answerText1.text = " Yes "
     
@@ -566,6 +589,8 @@ elseif (firstNumber == 18)then
     questionText.text = " Is space big? " 
 
     TrueOrFalse()
+       answerBox.isVisible = false
+    answerBox3.isVisible = false
     --creating answer text from list it corispondes with the animals list
     answerText1.text = " No "
     
@@ -584,13 +609,15 @@ elseif (firstNumber == 19)then
     --creating wrong answers
     wrongText1.text = " Rocks "
     wrongText2.text = " The sky "
-    wrongText3.text = " Nowhere "
+    wrongText3.text = " Grass "
 
 elseif (firstNumber == 20)then
      --creating the question depending on the selcetion number
     questionText.text = " Is language science? " 
 
     TrueOrFalse()
+       answerBox.isVisible = false
+    answerBox3.isVisible = false
     --creating answer text from list it corispondes with the animals list
     answerText1.text = " No "
     
@@ -679,22 +706,22 @@ end
 
 local function Calculate( )
     if (numCorrect == 2)then
-        
-        composer.hideOverlay( "level2_Question", { isModal = true, effect = "fade", time = 500})      
-        ResumeGameLevel3()
+         realAnswerText.isVisible = false
+        composer.hideOverlay( "level4_Question", { isModal = true, effect = "fade", time = 500})      
+        ResumeGameLevel4()
         --questionImage.isVisible = false
         numCorrect = 0
         numIncorrect = 0
 
     elseif (numIncorrect == 2)then
-       
-        composer.hideOverlay( "level2_Question", { isModal = true, effect = "fade", time = 500})
-        ResumeGame2Level3()
+        realAnswerText.isVisible = false
+        composer.hideOverlay( "level4_Question", { isModal = true, effect = "fade", time = 500})
+        ResumeGame2Level4()
 
         numCorrect = 0
         numIncorrect = 0
     else   
-        
+         realAnswerText.isVisible = false
  DisplayQuestion()
         PositionAnswers()
         if( trueOrFalsePosition == 1)or
@@ -718,7 +745,8 @@ local function TouchListenerWrongAnswer(touch)
     if (touch.phase == "ended") then
     
         numIncorrect = numIncorrect + 1
-        Calculate()
+       DisplayCorrectAnswer()
+        timer.performWithDelay(2000, Calculate)
         
         
     end 
@@ -733,7 +761,8 @@ local function TouchListenerWrongAnswer2(touch)
     if (touch.phase == "ended") then
 
         numIncorrect = numIncorrect + 1
-        Calculate()
+     DisplayCorrectAnswer()
+        timer.performWithDelay(2000, Calculate)
         
     end 
 end
@@ -747,7 +776,8 @@ local function TouchListenerWrongAnswer3(touch)
     
     if (touch.phase == "ended") then
         numIncorrect = numIncorrect + 1
-        Calculate()
+        DisplayCorrectAnswer()
+        timer.performWithDelay(2000, Calculate)
         
     end 
 end
@@ -864,6 +894,10 @@ function scene:create( event )
     wrongText3.anchorX = 0
     wrongText3:setFillColor(0/255, 0/255, 0/255)
 
+        realAnswerText = display.newText("", display.contentWidth/2, 250, Arial, 25)
+    --wrongText3.anchorX = 0
+    realAnswerText:setFillColor(0/255, 0/255, 0/255)
+
 
     -----------------------------------------------------------------------------------------
 
@@ -874,6 +908,7 @@ function scene:create( event )
     sceneGroup:insert(wrongText1)
     sceneGroup:insert(wrongText2)
     sceneGroup:insert(wrongText3)
+    sceneGroup:insert(realAnswerText)
   
 
 

@@ -32,6 +32,8 @@ local scene = composer.newScene( sceneName )
 -----------------------------------------------------------------------------------------
 -- GLOBAL VARIABLES
 -----------------------------------------------------------------------------------------
+
+
 soundOn = true
 
 
@@ -47,6 +49,11 @@ local instructionsButton
 local muteButton
 local unMuteButton
 local border
+local coin
+local coinText
+local coinText2
+local ball
+local characterButton
 
 -----------------------------------------------------------------------------------------
 -- LOCAL SOUNDS
@@ -54,10 +61,10 @@ local border
 
 
 -- audio variables
-local transitionSound = audio.loadStream("Sounds/jump.mp3")
+local transitionSound = audio.loadSound("Sounds/jump.mp3")
 local transitionSoundChannel
-local music = audio.loadStream("Sounds/mainMusic.mp3")
-local musicChannel = audio.play(music, {channel=1, loop = -1})
+local music5 = audio.loadStream("Sounds/mainMusic.mp3")
+local musicChannel5-- = audio.play(music5, { loops = -1} )
 
 -----------------------------------------------------------------------------------------
 -- LOCAL FUNCTIONS
@@ -67,7 +74,7 @@ local musicChannel = audio.play(music, {channel=1, loop = -1})
 -- Creating Mute function to pause audio
 local function Mute( touch )
     if (touch.phase == "ended") then
-        audio.pause(musicChannel)
+        audio.pause(musicChannel5)
         soundOn = false
         muteButton.isVisible = false
         unMuteButton.isVisible = true
@@ -78,7 +85,7 @@ end
 -- Creating Mute function to pause audio
 local function UnMute( touch )
     if (touch.phase == "ended") then
-        audio.resume(musicChannel)
+        audio.resume(musicChannel5)
         soundOn = true
         muteButton.isVisible = true
         unMuteButton.isVisible = false
@@ -90,7 +97,7 @@ end
 
 -- Creating Transition to Level1 Screen
 local function LevelSelectTransition( )
-    composer.gotoScene( "level_select", {effect = "fade", time = 1000})
+    composer.gotoScene( "character_select", {effect = "fade", time = 1000})
  
     if(soundOn == true)then
     transitionSoundChannel = audio.play(transitionSound)
@@ -114,6 +121,61 @@ local function CreditsTransition( )
     transitionSoundChannel = audio.play(transitionSound)
     end
 end 
+
+local function CoinBlink3(  )
+    coinText.isVisible = false
+    
+end
+
+local function CoinBlink2(  )
+    coinText.isVisible = true
+    
+    timer.performWithDelay(1000, CoinBlink3)
+
+end
+
+local function CoinBlink( event )
+    --coinText.isVisible = false
+    if( coinText.isVisible == false) then
+        timer.performWithDelay(1000, CoinBlink2)
+    end
+end
+
+local function BeganCoin( )
+    coinText.isVisible = false
+    Runtime:addEventListener("enterFrame", CoinBlink)
+end
+
+local function MoveBall( )
+    ball.x = ball.x + 8
+    ball.y = ball.y + 3
+    ball.rotation = ball.rotation + 5
+    if ( ball.x > 4000)then
+        ball.x = -500
+        ball.y = 100
+    end
+end
+
+local function MoveBall3( event )
+    Runtime:addEventListener("enterFrame", MoveBall)
+
+end
+
+
+local function MoveBall2( ... )
+    timer.performWithDelay(1000, MoveBall3)
+
+    --MoveBall2()
+end
+
+local function CoinNumber( ... )
+    coinText2.text = coins
+end
+
+local function CharacterTransition( ... )
+    composer.gotoScene( "character_select", {effect = "slideLeft", time = 500})
+end
+
 -----------------------------------------------------------------------------------------
 -- GLOBAL SCENE FUNCTIONS
 -----------------------------------------------------------------------------------------
@@ -138,17 +200,37 @@ function scene:create( event )
     sceneGroup:insert( background )
 
     muteButton = display.newImageRect("Images/MuteButtonPressedNoah@2x.png", 100, 100)
-    muteButton.x = 900
-    muteButton.y = 620
+    muteButton.x = 100
+    muteButton.y = 660
     muteButton.isVisible = true
 
     unMuteButton = display.newImageRect("Images/MuteButtonUnpressedNoah@2x.png", 100, 100)
-    unMuteButton.x = 900
-    unMuteButton.y = 620
+    unMuteButton.x = 100
+    unMuteButton.y = 660
     unMuteButton.isVisible = false
 
     sceneGroup:insert( muteButton )
     sceneGroup:insert( unMuteButton )
+
+
+    coin = display.newImageRect("Images/CoinNoah@2x.png", 50, 50)
+    coin.x = 890
+    coin.y = 120
+    
+    sceneGroup:insert( coin )
+
+    coinText = display.newText("COINS", 930, 40, nil, 50)
+    coinText2 = display.newText("0", 940, 120, nil, 60)
+
+    sceneGroup:insert( coinText )
+    sceneGroup:insert( coinText2 )
+
+    ball = display.newImageRect("Images/BallNoah@2x.png", 75, 75)
+    ball.x = -500
+    ball.y = 100
+
+    sceneGroup:insert( ball )
+    
     
    
     -----------------------------------------------------------------------------------------
@@ -160,10 +242,10 @@ function scene:create( event )
     playButton = widget.newButton( 
         {   
             -- Set its position on the screen relative to the screen size
-            x = display.contentWidth - 800,
-            y = display.contentHeight - 100,
-            width = 200,
-            height = 100,            
+            x = display.contentWidth/2 - 200,
+            y = display.contentHeight - 105,
+            width = 266.66,
+            height = 133.33,            
 
             -- Insert the images here
             defaultFile = "Images/PlayButtonUnpressedDaniel@2x.png",
@@ -179,7 +261,7 @@ function scene:create( event )
         {
             -- Set its position on the screen relative to the screen size
             x = display.contentWidth*7/8,
-            y = display.contentHeight - 300,
+            y = display.contentHeight - 420,
             width = 200,
             height = 100,  
             -- Insert the images here
@@ -199,7 +281,7 @@ function scene:create( event )
     instructionsButton = widget.newButton( 
         {
             -- Set its position on the screen relative to the screen size
-            x = display.contentWidth  - 800,
+            x = display.contentWidth*7/8,
             y = display.contentHeight - 300,
             width = 200,
             height = 100,  
@@ -211,6 +293,23 @@ function scene:create( event )
             -- When the button is released, call the Instructions transition function
             onRelease = InstructionsTransition
         } ) 
+
+     -- Creating character Button
+    characterButton = widget.newButton( 
+        {
+            -- Set its position on the screen relative to the screen size
+            x = display.contentWidth*7/8,
+            y = display.contentHeight - 120,
+            width = 200,
+            height = 200,  
+
+            -- Insert the images here
+            defaultFile = "Images/CharacterButtonUnpressed@2x.png",
+            overFile = "Images/SquareButtonPressedYourName@2x.png",
+
+            -- When the button is released, call the Instructions transition function
+            onRelease = CharacterTransition
+        } ) 
    
     -----------------------------------------------------------------------------------------
 
@@ -218,6 +317,7 @@ function scene:create( event )
     sceneGroup:insert( playButton )
     sceneGroup:insert( creditsButton )
     sceneGroup:insert( instructionsButton )
+    sceneGroup:insert( characterButton )
 
 
 end -- function scene:create( event )   
@@ -233,32 +333,38 @@ function scene:show( event )
     local sceneGroup = self.view
     --plays background music loop
     
-
+--audio.stop()
     -----------------------------------------------------------------------------------------
 
     local phase = event.phase
-
-    -----------------------------------------------------------------------------------------
+   
+ -----------------------------------------------------------------------------------------
 
     -- Called when the scene is still off screen (but is about to come on screen).   
     if ( phase == "will" ) then
-       
+       BeganCoin()
+       MoveBall2()
+       CoinNumber()
     -----------------------------------------------------------------------------------------
-
+ --music5 = audio.loadStream("Sounds/mainMusic.mp3")
+-- musicChannel5 = audio.play(music5, { loop = -1})
     -- Called when the scene is now on screen.
     -- Insert code here to make the scene come alive.
     -- Example: start timers, begin animation, play audio, etc.
     elseif ( phase == "did" ) then       
-        -- plays music if sound on is true
-           muteButton:addEventListener("touch", Mute)
+             
+             
+            musicChannel5 = audio.play(music5, { loop = -1})
+        muteButton:addEventListener("touch", Mute)
         unMuteButton:addEventListener("touch", UnMute)
-        if (soundOn == true) then
-         
-            audio.resume(musicChannel)
-            unMuteButton.isVisible = false
+        if (soundOn == true)then 
             muteButton.isVisible = true
-       
-    end
+            unMuteButton.isVisible = false
+        else
+            audio.pause(musicChannel5)
+            muteButton.isVisible = false
+            unMuteButton.isVisible = true
+        end
 
     end
 
@@ -282,15 +388,16 @@ function scene:hide( event )
         -- Called when the scene is on screen (but is about to go off screen).
         -- Insert code here to "pause" the scene.
         -- Example: stop timers, stop animation, stop audio, etc.
-    
-    audio.pause(musicChannel)
+    audio.stop( musicChannel5 )
+   
     -----------------------------------------------------------------------------------------
 
     elseif ( phase == "did" ) then
         -- Called immediately after scene goes off screen.
 
         -- removes mute button listeners
-        
+        Runtime:removeEventListener("enterFrame", CoinBlink)
+        Runtime:removeEventListener("enterFrame", MoveBall)
         muteButton:removeEventListener("touch", Mute)
         unMuteButton:removeEventListener("touch", UnMute)
         
