@@ -69,7 +69,8 @@ local questionmarkText
 
 local selectSound = audio.loadStream("Sounds/cheer.mp3")
 local selecSoundChannel
-
+local wrongSound = audio.loadStream("Sounds/losepoint2.mp3")
+local wrongSoundChannel
 
 
 
@@ -79,6 +80,9 @@ local selecSoundChannel
 -----------------------------------------------------------------------------------------
 
 local function DisplayCorrectAnswer( )
+       if( soundOn == true)then
+        wrongSoundChannel = audio.play(wrongSound)
+    end
     realAnswerText.isVisible = true
     realAnswerText.text = "The real answer is" .. answerText1.text
 end

@@ -69,6 +69,9 @@ local questionmarkText
 
 local selectSound = audio.loadStream("Sounds/cheer.mp3")
 local selecSoundChannel
+local wrongSound = audio.loadStream("Sounds/losepoint2.mp3")
+local wrongSoundChannel
+
 
 
 
@@ -78,6 +81,9 @@ local selecSoundChannel
 --LOCAL FUNCTIONS
 -----------------------------------------------------------------------------------------
 local function DisplayCorrectAnswer( )
+    if( soundOn == true)then
+        wrongSoundChannel = audio.play(wrongSound)
+    end
     realAnswerText.isVisible = true
     realAnswerText.text = "The real answer is" .. answerText1.text
 end
@@ -810,7 +816,7 @@ end
 local function TouchListenerWrongAnswer(touch)
     userAnswer = wrongText1.text
     if(soundOn == true) then
-    selecSoundChannel = audio.play(selectSound)
+   -- selecSoundChannel = audio.play(selectSound)
     end
     if (touch.phase == "ended") then
     
@@ -826,7 +832,7 @@ end
 local function TouchListenerWrongAnswer2(touch)
     userAnswer = wrongText2.text
     if(soundOn == true) then
-    selecSoundChannel = audio.play(selectSound)
+    --selecSoundChannel = audio.play(selectSound)
     end
     if (touch.phase == "ended") then
 
@@ -841,7 +847,7 @@ end
 local function TouchListenerWrongAnswer3(touch)
     userAnswer = wrongText3.text
      if(soundOn == true) then
-    selecSoundChannel = audio.play(selectSound)
+    --selecSoundChannel = audio.play(selectSound)
     end
     
     if (touch.phase == "ended") then

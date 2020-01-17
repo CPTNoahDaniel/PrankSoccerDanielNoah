@@ -32,8 +32,9 @@ local scene = composer.newScene( sceneName )
 -----------------------------------------------------------------------------------------
 -- GLOBAL VARIABLES
 -----------------------------------------------------------------------------------------
-soundOn = true
 
+
+soundOn = true
 
 
 
@@ -60,10 +61,10 @@ local characterButton
 
 
 -- audio variables
-local transitionSound = audio.loadStream("Sounds/jump.mp3")
+local transitionSound = audio.loadSound("Sounds/jump.mp3")
 local transitionSoundChannel
-local music = audio.loadStream("Sounds/mainMusic.mp3")
-local musicChannel = audio.play(music, {channel=1, loop = -1})
+local music5 = audio.loadStream("Sounds/mainMusic.mp3")
+local musicChannel5-- = audio.play(music5, { loops = -1} )
 
 -----------------------------------------------------------------------------------------
 -- LOCAL FUNCTIONS
@@ -73,7 +74,7 @@ local musicChannel = audio.play(music, {channel=1, loop = -1})
 -- Creating Mute function to pause audio
 local function Mute( touch )
     if (touch.phase == "ended") then
-        audio.pause(musicChannel)
+        audio.pause(musicChannel5)
         soundOn = false
         muteButton.isVisible = false
         unMuteButton.isVisible = true
@@ -84,7 +85,7 @@ end
 -- Creating Mute function to pause audio
 local function UnMute( touch )
     if (touch.phase == "ended") then
-        audio.resume(musicChannel)
+        audio.resume(musicChannel5)
         soundOn = true
         muteButton.isVisible = true
         unMuteButton.isVisible = false
@@ -332,12 +333,12 @@ function scene:show( event )
     local sceneGroup = self.view
     --plays background music loop
     
-
+--audio.stop()
     -----------------------------------------------------------------------------------------
 
     local phase = event.phase
-
-    -----------------------------------------------------------------------------------------
+   
+ -----------------------------------------------------------------------------------------
 
     -- Called when the scene is still off screen (but is about to come on screen).   
     if ( phase == "will" ) then
@@ -345,21 +346,25 @@ function scene:show( event )
        MoveBall2()
        CoinNumber()
     -----------------------------------------------------------------------------------------
-
+ --music5 = audio.loadStream("Sounds/mainMusic.mp3")
+-- musicChannel5 = audio.play(music5, { loop = -1})
     -- Called when the scene is now on screen.
     -- Insert code here to make the scene come alive.
     -- Example: start timers, begin animation, play audio, etc.
     elseif ( phase == "did" ) then       
-        -- plays music if sound on is true
-           muteButton:addEventListener("touch", Mute)
+             
+             
+            musicChannel5 = audio.play(music5, { loop = -1})
+        muteButton:addEventListener("touch", Mute)
         unMuteButton:addEventListener("touch", UnMute)
-        if (soundOn == true) then
-         
-            audio.resume(musicChannel)
-            unMuteButton.isVisible = false
+        if (soundOn == true)then 
             muteButton.isVisible = true
-       
-    end
+            unMuteButton.isVisible = false
+        else
+            audio.pause(musicChannel5)
+            muteButton.isVisible = false
+            unMuteButton.isVisible = true
+        end
 
     end
 
@@ -383,8 +388,8 @@ function scene:hide( event )
         -- Called when the scene is on screen (but is about to go off screen).
         -- Insert code here to "pause" the scene.
         -- Example: stop timers, stop animation, stop audio, etc.
-    
-    audio.pause(musicChannel)
+    audio.stop( musicChannel5 )
+   
     -----------------------------------------------------------------------------------------
 
     elseif ( phase == "did" ) then

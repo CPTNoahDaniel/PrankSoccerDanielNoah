@@ -87,11 +87,15 @@ local function MoveBall( event )
     if ( ball.y < 300)then
         ball.y = ball.y
         ball.x = ball.x
-         loseText.x = loseText.x + 5
+         loseText.x = loseText.x + 3
     else
     ball.x = ball.x - 2.5
     ball.y = ball.y - 3
-     loseText.x = loseText.x + 5
+     loseText.x = loseText.x + 3
+end
+
+if(loseText.x > display.contentWidth + 200)then
+    loseText.x = -1000
 end
 
 end
@@ -131,7 +135,7 @@ function scene:create( event )
  loseText = display.newText("You Lose!", -400 , display.contentHeight/12  , nil, 125 )
  loseText:setFillColor(255/255, 255/255, 0/255)
 
-ball = display.newImage("Images/BallNoah@2x.png",  display.contentWidth, 800)
+ball = display.newImage("Images/BallNoah@2x.png",  display.contentWidth + 50, 800)
 ball.width = 100
 ball.height = 100
 

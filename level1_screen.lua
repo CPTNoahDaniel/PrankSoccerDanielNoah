@@ -91,23 +91,26 @@ local powerText
 -----------------------------------------------------------------------------------------
 
 
-local musicChannel
+
 local music = audio.loadStream("Sounds/level1Music.mp3")
+local musicChannel
 local channel2
-local transitionSound = audio.loadStream("Sounds/jump.mp3")
-local goalSound = audio.loadStream("Sounds/win.mp3")
+local transitionSound = audio.loadSound("Sounds/jump.mp3")
+local goalSound = audio.loadSound("Sounds/win.mp3")
 local goalSoundChannel
-local kickSound = audio.loadStream("Sounds/kick.mp3")
+local kickSound = audio.loadSound("Sounds/kick.mp3")
 local kickSoundChannel
-local winSound = audio.loadStream("Sounds/winwin.mp3")
+local winSound = audio.loadSound("Sounds/winwin.mp3")
 local winSoundChannel
-local jumpSound = audio.loadStream("Sounds/jump2.mp3")
+local jumpSound = audio.loadSound("Sounds/jump2.mp3")
 local jumpSoundChannel
 local leftNet
-local jumpSound2 = audio.loadStream("Sounds/jump3.mp3")
+local jumpSound2 = audio.loadSound("Sounds/jump3.mp3")
 local jumpSound2Channel
-local badSound
+local badSound = audio.loadSound("Sounds/bad.mp3")
 local badSoundChannel
+local coinSound = audio.loadSound("Sounds/Coin.mp3")
+local coinSoundChannel
 
 -----------------------------------------------------------------------------------------
 -- LOCAL FUNCTIONS
@@ -273,6 +276,9 @@ local function ChangeScore2( )
     rightButton.isVisible = false
     leftButton.isVisible = false
      coins = coins + 1
+     if ( soundOn == true) then
+      coinSoundChannel = audio.play(coinSound)
+    end
     CoinNumber()
            character.x = character.x + 4000
 Level2Transition()
@@ -281,6 +287,9 @@ Level2Transition()
     upButton.isVisible = false
     rightButton.isVisible = false
     leftButton.isVisible = false
+    if ( soundOn == true)then
+    badSoundChannel = audio.play(badSound)
+  end
 
     
   elseif (goal_ == 2)and
@@ -289,6 +298,9 @@ Level2Transition()
           upButton.isVisible = false
     rightButton.isVisible = false
     leftButton.isVisible = false
+       if ( soundOn == true)then
+    badSoundChannel = audio.play(badSound)
+  end
          character.x = character.x + 4000
   composer.gotoScene( "you_lose", {effect = "slideLeft", time = 1000})
   elseif (goal_ == 2)then
@@ -296,12 +308,18 @@ Level2Transition()
      upButton.isVisible = false
     rightButton.isVisible = false
     leftButton.isVisible = false
+        if ( soundOn == true)then
+    badSoundChannel = audio.play(badSound)
+  end
   
   elseif (goal_ == 3)then
     goal_text.text = "3"
      upButton.isVisible = false
     rightButton.isVisible = false
     leftButton.isVisible = false
+        if ( soundOn == true)then
+    badSoundChannel = audio.play(badSound)
+  end
    
            character.x = character.x + 4000
      composer.gotoScene( "you_lose", {effect = "slideLeft", time = 1000})
@@ -318,6 +336,9 @@ local function ChangeScore( )
     rightButton.isVisible = false
     leftButton.isVisible = false
     coins = coins + 1
+    if ( soundOn == true) then
+      coinSoundChannel = audio.play(coinSound)
+    end
     CoinNumber()
    
   elseif (goal1 == 2)and
@@ -327,16 +348,25 @@ local function ChangeScore( )
     rightButton.isVisible = false
     leftButton.isVisible = false
      coins = coins + 1
+     if ( soundOn == true) then
+      coinSoundChannel = audio.play(coinSound)
+    end
      CoinNumber()
            character.x = character.x + 4000 
   Level2Transition() 
   elseif (goal1 == 2)then
     goalText.text = "2"
      coins = coins + 1
+     if ( soundOn == true) then
+      coinSoundChannel = audio.play(coinSound)
+    end
   CoinNumber()
   elseif (goal1 == 3)then
     goalText.text = "3"
      coins = coins + 1
+    if ( soundOn == true) then
+      coinSoundChannel = audio.play(coinSound)
+    end
      CoinNumber()
             character.x = character.x + 4000
     Level2Transition()
@@ -605,7 +635,7 @@ local function MainMenuTransition( )
 
     composer.gotoScene( "level_select", {effect = "fade", time = 1000})
    timer.performWithDelay( 1000, DisCharacter)
-    audio.stop()
+    
     if(soundOn == true)then
      channel2 = audio.play(transitionSound)
     end
@@ -1084,10 +1114,7 @@ function scene:show( event )
         physics.setGravity( 0, 20 )
         Runtime:addEventListener("enterFrame", Character)
         Runtime:addEventListener("enterFrame", Character2)
-        
-        if ( soundOn == true) then
-          musicChannel = audio.play(music, {loop = -1})
-        end
+     
     -----------------------------------------------------------------------------------------
 sceneGroup:insert( character )
   sceneGroup:insert( characterRolling )
@@ -1098,14 +1125,14 @@ sceneGroup:insert( character )
     elseif ( phase == "did" ) then       
            AddPhysicsBodies()
           AddCollisionListeners()
-           if (soundOn == true) then
-            audio.resume(musicChannel)
-          
-        else
-          
-            audio.pause(musicChannel)
-
+        
+             
+        if ( soundOn == true) then
+          musicChannel = audio.play(music, {loop = -1})
         end
+        
+
+        
    
     end
 
@@ -1129,6 +1156,7 @@ function scene:hide( event )
         -- Called when the scene is on screen (but is about to go off screen).
         -- Insert code here to "pause" the scene.
         -- Example: stop timers, stop animation, stop audio, etc.
+            audio.stop(musicChannel)
         RemovePhysicsBodies()
 
     -----------------------------------------------------------------------------------------

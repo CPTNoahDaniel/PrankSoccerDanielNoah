@@ -28,7 +28,7 @@ local scene = composer.newScene( sceneName )
 -----------------------------------------------------------------------------------------
 coins = 0
 power = 0
-
+ss = false
 
 
 -- local variables for the scene
