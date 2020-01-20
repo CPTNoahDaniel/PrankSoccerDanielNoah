@@ -61,11 +61,15 @@ local coinBox
 local coinText2
 local fakepowerUp
 local fakepowerUp2
+local fakepowerUpText
+local fakepowerUpText2
 local powerUpButton
+local powerUp2Button
 local informationText
 local powerUpsText
 local powerUpBox
 local informationCirle
+local infoButton
 
 
 -----------------------------------------------------------------------------------------
@@ -74,8 +78,10 @@ local informationCirle
 
 local transitionSound = audio.loadStream("Sounds/jump.mp3")
 local transitionSoundChannel
-local music = audio.loadStream("Sounds/creditsMusic.mp3")
-local musicChannel
+local characterMusic = audio.loadStream("Sounds/characterMusic.mp3")
+local musicChannel0-- = audio.play(characterMusic, { channel = 4, loop = -1})
+local selectSound2 = audio.loadStream("Sounds/character.mp3")
+local selectSound2Channel
 
 -----------------------------------------------------------------------------------------
 -- LOCAL FUNCTIONS
@@ -95,21 +101,33 @@ end
 
 
 local function Character1( )
+     if ( soundOn == true) then
+        selectSound2Channel = audio.play(selectSound2)
+    end
     characterf = 1
     composer.gotoScene( "level_select", {effect = "slideDown", time = 1000})
 end
 
 local function Character2( )
+  if ( soundOn == true) then
+        selectSound2Channel = audio.play(selectSound2)
+    end
     characterf = 2
     composer.gotoScene( "level_select", {effect = "slideDown", time = 1000})
 end
 
 local function Character3( )
+     if ( soundOn == true) then
+        selectSound2Channel = audio.play(selectSound2)
+    end
     characterf = 3
     composer.gotoScene( "level_select", {effect = "slideDown", time = 1000})
 end
 
 local function Character4( )
+    if ( soundOn == true) then
+        selectSound2Channel = audio.play(selectSound2)
+    end
     characterf = 4
     composer.gotoScene( "level_select", {effect = "slideDown", time = 1000})
 end
@@ -148,6 +166,20 @@ local function PowerUp( )
         power = power + 1
         composer.gotoScene( "level_select", {effect = "slideDown", time = 1000})
     end
+end
+
+local function PowerUp2( )
+    if (coins > 2) then
+        coins = coins - 3
+        CoinNumber()
+        power = power + 1
+        composer.gotoScene( "level_select", {effect = "slideDown", time = 1000})
+    end
+end
+
+local function Info( )
+    composer.showOverlay( "info_screen", {effect = "slideDown", time = 1000})
+    backButton.isVisible = false
 end
 ----------------------------------------------------------------------------------------
 -- GLOBAL SCENE FUNCTIONS
@@ -270,10 +302,17 @@ fakepowerUp2 = display.newImageRect("Images/PowerUp2.png", 100, 100)
     fakepowerUpText.x = display.contentWidth/2
     fakepowerUpText.y = 665
 
+    fakepowerUpText2 = display.newText("3 Coins EACH", 480, 425, nil, 20)
+    fakepowerUpText2.x = display.contentWidth/2 + 267
+    fakepowerUpText2.y = 665
+
+
     sceneGroup:insert( fakepowerUp )
     sceneGroup:insert( fakepowerUp2 )
 
     sceneGroup:insert( fakepowerUpText )
+    sceneGroup:insert( fakepowerUpText2 )
+
 
 
     
@@ -419,15 +458,59 @@ fakepowerUp2 = display.newImageRect("Images/PowerUp2.png", 100, 100)
             -- When the button is released, call the main menu screen transition function
             onRelease = PowerUp        
         } )
+
+     powerUp2Button = widget.newButton( 
+        {   
+            -- Set its position on the screen relative to the screen size
+            x = display.contentWidth/2 + 267,
+            y = display.contentHeight - 200,
+            width = 100,
+            height = 100,
+          
+
+            
+
+            -- Insert the images here
+            defaultFile = "Images/PowerUp2.png",
+            overFile = "Images/PowerUp2.png",
+
+            -- When the button is released, call the main menu screen transition function
+            onRelease = PowerUp2        
+        } )
+
+     infoButton = widget.newButton( 
+        {   
+            -- Set its position on the screen relative to the screen size
+            x = display.contentWidth/2 + 134,
+            y = 570,
+            width = 60,
+            height = 60,
+          
+
+            
+
+            -- Insert the images here
+            defaultFile = "Images/PowerUp2.png",
+            overFile = "Images/PowerUp2.png",
+
+           
+
+            -- When the button is released, call the main menu screen transition function
+            onRelease = Info        
+        } )
+infoButton.isVisible = false
     -----------------------------------------------------------------------------------------
     
     -----------------------------------------------------------------------------------------
     sceneGroup:insert( character2Button )
-      sceneGroup:insert( character1Button )
-      sceneGroup:insert( character3Button )
-      sceneGroup:insert( character4Button )
-        sceneGroup:insert( backButton )
-        sceneGroup:insert( powerUpButton )
+    sceneGroup:insert( character1Button )
+    sceneGroup:insert( character3Button )
+    sceneGroup:insert( character4Button )
+    sceneGroup:insert( backButton )
+    sceneGroup:insert( powerUpButton )
+    sceneGroup:insert( powerUp2Button )
+    sceneGroup:insert( infoButton )
+
     
 
     
@@ -455,12 +538,18 @@ function scene:show( event )
     if ( phase == "will" ) then
       Lock()
 CoinNumber()
-       if (soundOn == true) then
-            audio.play(musicChannel)
+       
+      -- if (soundOn == true) then
+        --   audio.resume(musicChannel0)
 
+       if (soundOn == true) then
+        musicChannel0 = audio.play(characterMusic, { loop = -1})
+          
        
                        
         end
+                       
+       -- end
     -----------------------------------------------------------------------------------------
  Runtime:addEventListener("enterFrame", ButtonFade)
     -- Called when the scene is now on screen.
@@ -493,13 +582,14 @@ function scene:hide( event )
         -- Called when the scene is on screen (but is about to go off screen).
         -- Insert code here to "pause" the scene.
         -- Example: stop timers, stop animation, stop audio, etc.
+       --  audio.pause(musicChannel0)
         Runtime:removeEventListener( "enterFrame")
     -----------------------------------------------------------------------------------------
 
     elseif ( phase == "did" ) then
         -- Called immediately after scene goes off screen.
-    
-        audio.pause(musicChannel)
+    audio.stop(musicChannel0)
+       
     end
 
 end -- function scene:hide( event )

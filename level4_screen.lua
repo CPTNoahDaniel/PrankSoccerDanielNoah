@@ -98,8 +98,10 @@ local jumpSoundChannel
 local leftNet
 local jumpSound2 = audio.loadStream("Sounds/jump3.mp3")
 local jumpSound2Channel
-local badSound
+local badSound = audio.loadSound("Sounds/bad.mp3")
 local badSoundChannel
+local coinSound = audio.loadSound("Sounds/Coin.mp3")
+local coinSoundChannel
 
 -----------------------------------------------------------------------------------------
 -- LOCAL FUNCTIONS
@@ -263,6 +265,9 @@ local function ChangeScore2( )
     leftButton.isVisible = false
            character.x = character.x + 4000
            coin = coin + 1
+         if ( soundOn == true) then
+      coinSoundChannel = audio.play(coinSound)
+    end
            CoinNumber()
 timer.performWithDelay(2000, WinTransition)
   elseif (goal_ == 1)then
@@ -270,6 +275,9 @@ timer.performWithDelay(2000, WinTransition)
     upButton.isVisible = false
     rightButton.isVisible = false
     leftButton.isVisible = false
+         if ( soundOn == true)then
+    badSoundChannel = audio.play(badSound)
+  end
 
     
   elseif (goal_ == 2)and
@@ -278,6 +286,9 @@ timer.performWithDelay(2000, WinTransition)
           upButton.isVisible = false
     rightButton.isVisible = false
     leftButton.isVisible = false
+        if ( soundOn == true)then
+    badSoundChannel = audio.play(badSound)
+  end
      
   composer.gotoScene( "you_lose", {effect = "slideLeft", time = 1000})
      
@@ -286,12 +297,18 @@ timer.performWithDelay(2000, WinTransition)
      upButton.isVisible = false
     rightButton.isVisible = false
     leftButton.isVisible = false
+        if ( soundOn == true)then
+    badSoundChannel = audio.play(badSound)
+  end
    
   elseif (goal_ == 3)then
     goal_text.text = "3"
      upButton.isVisible = false
     rightButton.isVisible = false
     leftButton.isVisible = false
+          if ( soundOn == true)then
+    badSoundChannel = audio.play(badSound)
+  end
  
      composer.gotoScene( "you_lose", {effect = "slideLeft", time = 1000})
       
@@ -308,6 +325,9 @@ local function ChangeScore( )
     rightButton.isVisible = false
     leftButton.isVisible = false
     coins = coins + 1
+      if ( soundOn == true) then
+      coinSoundChannel = audio.play(coinSound)
+    end
     CoinNumber()
    
   elseif (goal1 == 2)and
@@ -317,6 +337,9 @@ local function ChangeScore( )
     rightButton.isVisible = false
     leftButton.isVisible = false
      coins = coins + 1
+       if ( soundOn == true) then
+      coinSoundChannel = audio.play(coinSound)
+    end
      CoinNumber()
 
   timer.performWithDelay(2000, WinTransition)
@@ -324,11 +347,17 @@ local function ChangeScore( )
   elseif (goal1 == 2)then
     goalText.text = "2"
      coins = coins + 1
+      if ( soundOn == true) then
+      coinSoundChannel = audio.play(coinSound)
+    end
      CoinNumber()
   
   elseif (goal1 == 3)then
     goalText.text = "3"
      coins = coins + 1
+      if ( soundOn == true) then
+      coinSoundChannel = audio.play(coinSound)
+    end
      CoinNumber()
    timer.performWithDelay(2000, WinTransition)
       
